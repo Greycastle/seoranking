@@ -28,4 +28,28 @@ You can now call this method on [http://localhost:8080](http://localhost:8080).
 
 ### Dependencies
 
-You add depenencies to the `requirements.txt` file however, first, check out the [pre-installed dependencies](https://cloud.google.com/functions/docs/writing/specifying-dependencies-python) documentation.
+You add depenencies to the `requirements.txt` file. Check out the [pre-installed dependencies](https://cloud.google.com/functions/docs/writing/specifying-dependencies-python) documentation.
+
+Even though the requirement might be available, add it to make local development easier.
+
+You can then install these by:
+
+```shell
+pyenv exec pip install -r requirements.txt
+```
+
+### Testing
+
+I use [pytest](https://docs.pytest.org/) for running unit tests. This helps iterate a bit more quickly for anything that's not specifically relying on the infrastructure part of running the functions.
+
+Run it by
+
+```shell
+pyenv exec pytest
+```
+
+## About google ranking
+
+Google has a [Programmable Search Engine](https://developers.google.com/custom-search/v1/introduction) API but it works as a custom engine for your own site, not as an API for the site in general.
+
+[SerpApi](https://serpapi.com/) is one service that scrapes Google and they take the blame for this. [Google hasn't taken any legal actions](https://dataforseo.com/blog/is-scraping-google-serps-legal) for companies scraping them but it is against their ToS.
