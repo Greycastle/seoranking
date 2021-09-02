@@ -10,5 +10,5 @@ gcloud config set project $PROJECT
 echo "Switched to $PROJECT"
 
 echo "Deploying.."
-# gcloud functions deploy search --source search --runtime python37 --trigger-http
+gcloud functions deploy register --source register --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy rank --source rank --runtime python37 --trigger-topic rank
