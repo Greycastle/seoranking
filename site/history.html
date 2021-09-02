@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>SEO Ranking - Login to check your past ranking</title>
+  <meta name="description" content="With SEO Ranking you can track your current and past google ranking">
+  <meta name="author" content="Greycastle">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/site.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css-loader/3.3.3/css-loader.css" integrity="sha512-HrLBWHEIRcc9ZemiLhR34DVdkr81NVqhOtT1fIZGdcY5UmC5JzJAEwuj9B/fcNA6huJ3NQ8KV67CmdM/3H2H3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="js/humanize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/humanize-duration/3.27.0/humanize-duration.min.js" integrity="sha512-C6XM91cD52KknT8jaQF1P2PrIRTrbMzq6hzFkc22Pionu774sZwVPJInNxfHNwPvPne3AMtnRWKunr9+/gQR5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js";
+    import { initializeAuth, sendSignInLinkToEmail, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPVxNQjSUH4lbV4srGxT26YkhYANxj5Fw",
+      authDomain: "seoranking-324303.firebaseapp.com",
+      projectId: "seoranking-324303",
+      storageBucket: "seoranking-324303.appspot.com",
+      messagingSenderId: "950631750849",
+      appId: "1:950631750849:web:74515513e16bc068560840",
+      measurementId: "G-WSP006WNBZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = initializeAuth(app, {
+      'persistence': browserLocalPersistence
+    });
+
+    function load(user) {
+      return new Promise(function (resolve, reject) {
+        // $.getJSON('...')
+        setTimeout(function() {
+          const two_hours_ago = new Date()
+          two_hours_ago.setHours(two_hours_ago.getHours() - 2)
+          const items = [{
+            'site': 'greycastle.se',
+            'keyword': 'greycastle',
+            'lastRanking': 4,
+            'lastConfirmed': two_hours_ago,
+            'rankings': 12,
+            'downloadId': 'xxxx'
+          }]
+          resolve({
+            items,
+            stats: {
+              'creditLeft': 18,
+              'creditSpent': 12,
+              'schedule': 1,
+              'rankings': items.length
+            }
+          })
+        }, 1500)
+      })
+    }
+
+    onAuthStateChanged(auth, function(user) {
+      if (user) {
+        load(user).then(function(data) {
+          $('#statCreditSpent').text(data.stats.creditSpent)
+          $('#statCreditLeft').text(data.stats.creditLeft)
+          $('#statSchedule').text(data.stats.schedule == 1 ? 'every day' : `every ${data.stats.schedule} days`)
+          $('#statRankings').text(`${data.stats.rankings} ${Humanize.pluralize(data.stats.rankings, 'keyword')}`)
+          const remainingEstimate = data.stats.creditLeft / data.stats.schedule
+          $('#statRemaining').text(`${remainingEstimate} ${Humanize.pluralize(remainingEstimate, 'day')}`)
+
+          for (let ranking of data.items) {
+            const row = $('tbody').append("<tr></tr>")
+            row.append(`<td>${ranking.site}</td>`)
+            row.append(`<td>${ranking.keyword}</td>`)
+            row.append(`<td>${Humanize.ordinal(ranking.lastRanking)} place</td>`)
+            row.append(`<td>${humanizeDuration(new Date() - ranking.lastConfirmed, { round: true })} ago</td>`)
+            row.append(`<td>${ranking.rankings}</td>`)
+            row.append(`<td>${ranking.downloadId}</td>`)
+          }
+
+          $('#loading').fadeOut(250)
+          $('#data').fadeIn(250)
+        })
+      } else {
+        window.location.href = 'login.html'
+      }
+    })
+
+    $(document).ready(function() {
+      $('#loading').fadeIn(250)
+    })
+  </script>
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container" id="loading">
+    <div id="loader" class="loader loader-default is-active" data-half=""></div>
+  </div>
+
+  <div class="container hide-default" id="data">
+    <section class="header">
+      <h2 class="title">History</h2>
+      <p>
+          Welcome in! Here's your recent history and remaining credits.
+      </p>
+    </section>
+
+    <div class="page-section">
+      <h3>Rank history</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Site</th>
+            <th>Keyword</th>
+            <th>Last ranking</th>
+            <th>Last confirmed</th>
+            <th>Confirmed</th>
+            <th>Download</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-section">
+      <h3>Credit status</h3>
+      <p>
+        You have done <b id="statCreditSpent">12</b> rank checks this far and have another <b id="statCreditLeft">18</b> remaining. As you are running a rank check <b id="statSchedule">every day</b> on <b id="statRankings">1 keyword</b> it will last for another <b id="statRemaining">18 days</b>.
+      </p>
+    </div>
+
+    <div class="page-section">
+      <h3>About</h3>
+      <p>
+          This app is built by <a target="_blank" href="https://twitter.com/almundgrey">David</a> @ <a target="_blank" href="https://greycastle.se">Greycastle</a>, visuals based on the <a target="_blank" href="http://getskeleton.com/">Skeleton</a> css framework. <a href="about.html">About</a> | <a href="pricing.html">Pricing</a>.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>SEO Ranking - Login to check your past ranking</title>
+  <meta name="description" content="With SEO Ranking you can track your current and past google ranking">
+  <meta name="author" content="Greycastle">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/site.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js";
+    import { initializeAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCPVxNQjSUH4lbV4srGxT26YkhYANxj5Fw",
+      authDomain: "seoranking-324303.firebaseapp.com",
+      projectId: "seoranking-324303",
+      storageBucket: "seoranking-324303.appspot.com",
+      messagingSenderId: "950631750849",
+      appId: "1:950631750849:web:74515513e16bc068560840",
+      measurementId: "G-WSP006WNBZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = initializeAuth(app, {
+      'persistence': browserLocalPersistence
+    });
+
+    function trySignIn() {
+      const email = window.localStorage.getItem('emailForSignIn')
+      $('#email').val(email)
+
+      if (isSignInWithEmailLink(auth, window.location.href)) {
+        if (!email) {
+          alert('No email provided, seems like you came from somewhere else, please try again!')
+        } else {
+          signInWithEmailLink(auth, email, window.location.href).then(function(result){
+            window.location.href = 'history.html'
+          }).catch(function(error) {
+            console.error(error)
+          })
+        }
+      }
+    }
+
+    function sendCode(email) {
+      let host = `${window.location.protocol}//${window.location.hostname}`
+      if (host.endsWith('localhost')) host = `${host}:${window.location.port}`
+      const actionCodeSettings = {
+        url: `${host}/login.html`,
+        handleCodeInApp: true
+      }
+      sendSignInLinkToEmail(auth, email, actionCodeSettings)
+        .then(() => {
+          window.localStorage.setItem('emailForSignIn', email);
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(error)
+        });
+    }
+
+    $(document).ready(function() {
+      trySignIn()
+
+      $('#sendCode').click(function() {
+        $('.form').fadeOut(250, function() {
+          $('.sent').fadeIn(250)
+        })
+        const email = $('#email').val()
+        sendCode(email)
+        return false
+      })
+    })
+  </script>
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <section class="header">
+      <h2 class="title">Login</h2>
+      <p>
+          Login to check your ranking history.
+      </p>
+    </section>
+
+    <div class="page-section">
+      <h3>Login</h3>
+      <form class="form">
+        <div class="row">
+            <p>
+                <label for="email">Email</label>
+                <input placeholder="your@email.com" class="remember-input u-full-width" type="email" id="email">
+            </p>
+        </div>
+        <p>
+          <button id="sendCode" class="button-primary">Send login code</button>
+        </p>
+      </form>
+      <p class="sent" style="display: none">
+        A code has been sent to your email. Please open the link provided inside to continue.
+      </p>
+    </div>
+
+    <div class="page-section">
+      <h3>About</h3>
+      <p>
+          This app is built by <a target="_blank" href="https://twitter.com/almundgrey">David</a> @ <a target="_blank" href="https://greycastle.se">Greycastle</a>, visuals based on the <a target="_blank" href="http://getskeleton.com/">Skeleton</a> css framework. <a href="about.html">About</a> | <a href="pricing.html">Pricing</a>.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
