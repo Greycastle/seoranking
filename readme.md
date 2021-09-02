@@ -48,6 +48,13 @@ Run it by
 pyenv exec pytest
 ```
 
+### Deploy
+
+```shell
+cd functions
+./deploy.sh
+```
+
 ## About google ranking
 
 Google has a [Programmable Search Engine](https://developers.google.com/custom-search/v1/introduction) API but it works as a custom engine for your own site, not as an API for the site in general.
