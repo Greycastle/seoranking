@@ -1,9 +1,12 @@
 import datetime
+from inspect import unwrap
+
+from werkzeug.exceptions import BadRequest, Unauthorized
 import firebase_admin
 from firebase_admin import auth
 from firebase_admin import credentials
 import os
-from flask import abort
+from flask import abort, Response
 from data_source import read_stats, NoSuchUser
 import re
 import logging
@@ -15,6 +18,12 @@ cred = credentials.ApplicationDefault()
 firebase_app = firebase_admin.initialize_app(cred, {
   'projectId': PROJECT_ID,
 })
+
+def unauthorized(message, headers):
+  raise Unauthorized(message, Response(message, 401, headers=headers))
+
+def bad_request(message, headers):
+  raise BadRequest(message, Response(message, 400, headers=headers))
 
 def get_stats(request):
   if request.method == 'OPTIONS':
@@ -28,14 +37,14 @@ def get_stats(request):
 
   headers = { 'Access-Control-Allow-Origin': '*' }
   if not request.headers.get('authorization'):
-      abort(401, 'No authorization token provided', headers)
+      unauthorized('No authorization token provided', headers)
   try:
       pattern  = re.compile("Bearer ", re.IGNORECASE)
       token = pattern.sub("", request.headers['authorization'])
       request.user = auth.verify_id_token(token)
   except Exception as e:
       logger.error("Invalid auth token", exc_info=e)
-      abort(400, 'Invalid authorization token', headers)
+      bad_request('Invalid authorization token', headers)
 
   try:
     data = read_stats(request.user['email'])
