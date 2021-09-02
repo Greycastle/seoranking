@@ -6,7 +6,7 @@ Tool to let people who can't afford huge tools like SEM Rush to get on track wit
 
 As a development environment, you can load all your environment key secrets using a `source .env`.
 
-## Functions
+## Functions
 
 In the `functions` folder all cloud functions are stored.
 
@@ -26,7 +26,7 @@ functions_framework --target hello_http
 You can now call this method on [http://localhost:8080](http://localhost:8080).
 
 
-### Dependencies
+### Dependencies
 
 You add depenencies to the `requirements.txt` file. Check out the [pre-installed dependencies](https://cloud.google.com/functions/docs/writing/specifying-dependencies-python) documentation.
 
