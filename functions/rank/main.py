@@ -1,6 +1,7 @@
 from google_search import run_search
 from publisher import publish
 from storage import save
+from datetime import datetime
 
 def rank(event, context):
 
@@ -27,6 +28,7 @@ def rank(event, context):
     'user': user,
     'keyword': keyword,
     'rank_site': rank_site,
+    'timestamp': datetime.now(),
     'position': get_position(results=ranking, rank_site=rank_site),
     'results': ranking
   }

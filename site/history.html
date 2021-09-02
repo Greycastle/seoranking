@@ -56,28 +56,39 @@
 
     function load(user) {
       return new Promise(function (resolve, reject) {
-        // $.getJSON('...')
-        setTimeout(function() {
-          const two_hours_ago = new Date()
-          two_hours_ago.setHours(two_hours_ago.getHours() - 2)
-          const items = [{
-            'site': 'greycastle.se',
-            'keyword': 'greycastle',
-            'lastRanking': 4,
-            'lastConfirmed': two_hours_ago,
-            'rankings': 12,
-            'downloadId': 'xxxx'
-          }]
-          resolve({
-            items,
-            stats: {
-              'creditLeft': 18,
-              'creditSpent': 12,
-              'schedule': 1,
-              'rankings': items.length
-            }
-          })
-        }, 1500)
+        $.ajax({
+          beforeSend: function(request) {
+            console.log(user)
+            request.setRequestHeader('authorization', `bearer ${user.accessToken}`)
+          },
+          contentType: 'application/json',
+          dataType: 'json',
+          url: 'https://us-central1-seoranking-324303.cloudfunctions.net/get_stats',
+          success: function(data) {
+            resolve(data)
+          }
+        })
+        // setTimeout(function() {
+        //   const two_hours_ago = new Date()
+        //   two_hours_ago.setHours(two_hours_ago.getHours() - 2)
+        //   const items = [{
+        //     'site': 'greycastle.se',
+        //     'keyword': 'greycastle',
+        //     'lastRanking': 4,
+        //     'lastConfirmed': two_hours_ago,
+        //     'rankings': 12,
+        //     'downloadId': 'xxxx'
+        //   }]
+        //   resolve({
+        //     items,
+        //     stats: {
+        //       'creditLeft': 18,
+        //       'creditSpent': 12,
+        //       'schedule': 1,
+        //       'rankings': items.length
+        //     }
+        //   })
+        // }, 1500)
       })
     }
 

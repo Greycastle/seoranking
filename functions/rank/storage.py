@@ -2,7 +2,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import os
-import datetime
 
 def save(entry):
   PROJECT_ID = os.getenv('GCP_PROJECT')
@@ -11,7 +10,7 @@ def save(entry):
     'projectId': PROJECT_ID,
   })
 
-  timestamp = '{:%Y%m%d_%H%M%S_%f}'.format(datetime.datetime.now())
+  timestamp = '{:%Y%m%d_%H%M%S_%f}'.format(entry['timestamp'])
   db = firestore.client()
 
   doc_ref = db.collection(u'ranking').document(timestamp)
