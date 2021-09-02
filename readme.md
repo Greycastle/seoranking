@@ -13,14 +13,14 @@ In the `functions` folder all cloud functions are stored.
 To get started with running these locally you need to have [Python 3 installed](https://opensource.com/article/19/5/python-3-default-mac). Then you can debug locally using the [Functions Framework](https://cloud.google.com/functions/docs/running/function-frameworks).
 
 ```shell
-pyenv exec pip install functions-framework
+pip install functions-framework
 ```
 
 Then to run a specific function, cd into the directory and run the following, replacing it with the function name:
 
 ```shell
 cd functions/helloworld
-pyenv exec functions_framework --target hello_http
+functions_framework --target hello_http
 ```
 
 You can now call this method on [http://localhost:8080](http://localhost:8080).
