@@ -1,5 +1,6 @@
-from rank.google_search import run_search
-from rank.publisher import publish
+from google_search import run_search
+from publisher import publish
+from storage import save
 
 def rank(event, context):
 
@@ -26,13 +27,13 @@ def rank(event, context):
     'user': user,
     'keyword': keyword,
     'rank_site': rank_site,
-    'position': get_position(rank_site, ranking),
+    'position': get_position(results=ranking, rank_site=rank_site),
     'results': ranking
   }
-
-  publish('ranking-results', results)
+  save(results)
 
   # trigger that rank is saved
+  publish('ranking-results', results)
 
 def get_position(results, rank_site):
   position = 1

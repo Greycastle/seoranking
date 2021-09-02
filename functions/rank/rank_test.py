@@ -1,7 +1,7 @@
 import base64
 import json
 import mock
-from rank import main
+from main import rank, get_position
 
 mock_context = mock.Mock()
 
@@ -13,8 +13,11 @@ def test_rank():
   }
 
   message_contents = base64.b64encode(json.dumps(data).encode())
+  event = {
+    'data': message_contents
+  }
 
-  #main.rank(event, mock_context)
+  rank(event, mock_context)
 
 def test_rank_position():
   entries = [
@@ -23,11 +26,11 @@ def test_rank_position():
     { 'title': 'c', 'link': 'https://yahoo.com' }
   ]
 
-  assert main.get_position(entries, 'greycastle.se') == 2
+  assert get_position(results=entries, rank_site='greycastle.se') == 2
 
 def test_not_ranking():
   entries = [
     { 'title': 'a', 'link': 'https://google.com' }
   ]
 
-  assert main.get_position(entries, 'greycastle.se') == None
+  assert get_position(results=entries, rank_site='greycastle.se') == None
