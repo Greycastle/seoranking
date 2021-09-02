@@ -20,11 +20,13 @@ def register_new_user(username, keyword, rank_site):
     raise UserAlreadyAdded()
 
   DEFAULT_RANKS=30
+  DEFAULT_SCHEDULE_DAYS=1
   now = datetime.datetime.now()
   user = {
     'email': username.lower(),
     'added': now,
     'ranks_left': DEFAULT_RANKS,
+    'days_schedule': DEFAULT_SCHEDULE_DAYS,
     'rankings': [
       {
         'site': rank_site,
