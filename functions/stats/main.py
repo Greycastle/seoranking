@@ -31,7 +31,7 @@ def get_stats(request):
       abort(401, 'No authorization token provided', headers)
   try:
       pattern  = re.compile("Bearer ", re.IGNORECASE)
-      token = pattern.sub(request.headers['authorization'], "")
+      token = pattern.sub("", request.headers['authorization'])
       request.user = auth.verify_id_token(token)
   except Exception as e:
       logger.error("Invalid auth token", exc_info=e)

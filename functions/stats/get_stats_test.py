@@ -16,10 +16,11 @@ def test_get_stats_fails_with_bad_token():
 
 def test_get_stats():
 
-  request = mock.Mock(headers={'authorization': 'jwt'})
+  request = mock.Mock(headers={'authorization': 'Bearer mock-token'})
   mock_user = {
     'email': 'david@greycastle.se'
   }
   with mock.patch('firebase_admin.auth.verify_id_token') as verify_mock:
     verify_mock.return_value = mock_user
     get_stats(request)
+    verify_mock.assert_called_once_with('mock-token')
