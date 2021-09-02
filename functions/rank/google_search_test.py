@@ -1,4 +1,4 @@
-from search.google_search import run_search
+from rank.google_search import run_search
 
 def test_search():
   result = run_search(query='greycastle', stop_on="greycastle.se")

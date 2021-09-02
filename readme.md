@@ -48,6 +48,12 @@ Run it by
 pyenv exec pytest
 ```
 
+To test publishers and similar you need to allow Google to give permissions to use your account to authenticate to stuff like pubsub.
+
+```shell
+gcloud auth application-default login
+```
+
 ### Deploy
 
 ```shell
