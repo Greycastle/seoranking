@@ -24,3 +24,8 @@ pyenv exec functions_framework --target hello_http
 ```
 
 You can now call this method on [http://localhost:8080](http://localhost:8080).
+
+
+### Dependencies
+
+You add depenencies to the `requirements.txt` file however, first, check out the [pre-installed dependencies](https://cloud.google.com/functions/docs/writing/specifying-dependencies-python) documentation.
