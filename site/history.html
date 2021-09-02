@@ -58,7 +58,6 @@
       return new Promise(function (resolve, reject) {
         $.ajax({
           beforeSend: function(request) {
-            console.log(user)
             request.setRequestHeader('authorization', `bearer ${user.accessToken}`)
           },
           contentType: 'application/json',
@@ -68,48 +67,30 @@
             resolve(data)
           }
         })
-        // setTimeout(function() {
-        //   const two_hours_ago = new Date()
-        //   two_hours_ago.setHours(two_hours_ago.getHours() - 2)
-        //   const items = [{
-        //     'site': 'greycastle.se',
-        //     'keyword': 'greycastle',
-        //     'lastRanking': 4,
-        //     'lastConfirmed': two_hours_ago,
-        //     'rankings': 12,
-        //     'downloadId': 'xxxx'
-        //   }]
-        //   resolve({
-        //     items,
-        //     stats: {
-        //       'creditLeft': 18,
-        //       'creditSpent': 12,
-        //       'schedule': 1,
-        //       'rankings': items.length
-        //     }
-        //   })
-        // }, 1500)
       })
     }
 
     onAuthStateChanged(auth, function(user) {
       if (user) {
         load(user).then(function(data) {
-          $('#statCreditSpent').text(data.stats.creditSpent)
-          $('#statCreditLeft').text(data.stats.creditLeft)
+          const rankings = data.items.length
+          $('#statCreditSpent').text(data.stats.creditsSpent)
+          $('#statCreditLeft').text(data.stats.creditsLeft)
           $('#statSchedule').text(data.stats.schedule == 1 ? 'every day' : `every ${data.stats.schedule} days`)
-          $('#statRankings').text(`${data.stats.rankings} ${Humanize.pluralize(data.stats.rankings, 'keyword')}`)
-          const remainingEstimate = data.stats.creditLeft / data.stats.schedule
+          $('#statRankings').text(`${rankings} ${Humanize.pluralize(rankings, 'keyword')}`)
+          const remainingEstimate = Math.floor(data.stats.creditsLeft / data.stats.schedule)
           $('#statRemaining').text(`${remainingEstimate} ${Humanize.pluralize(remainingEstimate, 'day')}`)
 
           for (let ranking of data.items) {
+            const timestamp = Date.parse(ranking.lastConfirmed)
             const row = $('tbody').append("<tr></tr>")
             row.append(`<td>${ranking.site}</td>`)
             row.append(`<td>${ranking.keyword}</td>`)
             row.append(`<td>${Humanize.ordinal(ranking.lastRanking)} place</td>`)
-            row.append(`<td>${humanizeDuration(new Date() - ranking.lastConfirmed, { round: true })} ago</td>`)
+            row.append(`<td>${humanizeDuration(new Date() - timestamp, { round: true, largest: 1 })} ago</td>`)
             row.append(`<td>${ranking.rankings}</td>`)
-            row.append(`<td>${ranking.downloadId}</td>`)
+            const url = `someservice/${ranking.downloadId}`
+            row.append(`<td><a href="${url}">Download CSV</a></td>`)
           }
 
           $('#loading').fadeOut(250)
