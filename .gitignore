@@ -1,4 +1,5 @@
-## pyhon files
+# Python temp files
 __pycache__
 
-.apikey
+# Environmeny
+.env

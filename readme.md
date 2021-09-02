@@ -2,6 +2,9 @@
 
 Tool to let people who can't afford huge tools like SEM Rush to get on track with their SEO ranking over time.
 
+## Environment
+
+As a development environment, you can load all your environment key secrets using a `source .env`.
 
 ## Functions
 
