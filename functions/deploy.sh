@@ -13,3 +13,4 @@ echo "Deploying.."
 gcloud functions deploy get_stats --source stats --runtime python37 --trigger-http
 gcloud functions deploy register --source register --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy rank --source rank --runtime python37 --trigger-topic rank
+gcloud functions deploy process_ranking --source processranking --runtime python37 --trigger-topic process-ranking
