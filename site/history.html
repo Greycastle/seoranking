@@ -78,7 +78,7 @@
           $('#statCreditLeft').text(data.stats.creditsLeft)
           $('#statSchedule').text(data.stats.schedule == 1 ? 'every day' : `every ${data.stats.schedule} days`)
           $('#statRankings').text(`${rankings} ${Humanize.pluralize(rankings, 'keyword')}`)
-          const remainingEstimate = Math.floor(data.stats.creditsLeft / data.stats.schedule)
+          const remainingEstimate = Math.floor(data.stats.creditsLeft / ((1 / data.stats.schedule) * rankings))
           $('#statRemaining').text(`${remainingEstimate} ${Humanize.pluralize(remainingEstimate, 'day')}`)
 
           for (let ranking of data.items) {
