@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from datetime import datetime, timezone
 import os
 
 def get_rankings():
@@ -16,17 +17,29 @@ def get_rankings():
   rankings = []
   for user_ref in active_users:
     user = user_ref.to_dict()
+    schedule = user.get('schedule', 3)
     user_rankings = user.get('rankings', None)
     email = user['email']
     if user_rankings is None:
       continue
 
     for user_ranking in user_rankings:
+      last_ranked = user_ranking.get('last_ranked', None)
+      if not is_past_schedule(schedule, last_ranked):
+        continue
+
       rankings.append({
         'user': email,
         'keyword': user_ranking['keyword'],
         'rank_site': user_ranking['site'],
-        'last_ranked': user_ranking.get('last_ranked', None)
+        'last_ranked': last_ranked
       })
 
   return rankings
+
+def is_past_schedule(schedule, last_ranked):
+  if last_ranked is None:
+    return True
+
+  days = (datetime.now(timezone.utc) - last_ranked).days
+  return days >= schedule
