@@ -2,7 +2,7 @@ import mock
 from datetime import datetime
 import base64
 import json
-from main import log_ranking_results
+from logresults.logresults import log_ranking_results
 
 def test_log_results():
   event = {

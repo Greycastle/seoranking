@@ -14,4 +14,4 @@ gcloud functions deploy get_stats --entry-point get_stats_http --project $PROJEC
 gcloud functions deploy register --entry-point register_http --project $PROJECT --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy rank --entry-point rank_message --project $PROJECT --runtime python37 --trigger-topic rank
 gcloud functions deploy process_ranking --entry-point process_ranking_message --project $PROJECT --runtime python37 --trigger-topic process-ranking
-$SCRIPT_DIR/log_ranking_results/deploy.sh
+gcloud functions deploy log_ranking_results --entry-point log_ranking_results_message --project $PROJECT --runtime python37 --trigger-topic ranking-results
