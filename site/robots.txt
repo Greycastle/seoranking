@@ -1,0 +1,3 @@
+# complete disallow for now
+User-agent: *
+Disallow: /
