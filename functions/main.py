@@ -5,6 +5,7 @@ from processranking.processranking import process_ranking
 from logresults.logresults import log_ranking_results
 from addranking.addranking import add_ranking
 from mailer.mailer import handle_send_mail_event
+from notifyranking.notifyranking import notify_ranking
 
 def register_http(request):
   return register(request)
@@ -26,3 +27,6 @@ def add_ranking_message(event, context):
 
 def send_mail_message(event, context):
   handle_send_mail_event(event, context)
+
+def notify_ranking_message(event, context):
+  notify_ranking(event, context)
