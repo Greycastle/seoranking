@@ -3,6 +3,7 @@ from rank.rank import rank
 from stats.stats import get_stats
 from processranking.processranking import process_ranking
 from logresults.logresults import log_ranking_results
+from addranking.addranking import add_ranking
 
 def register_http(request):
   return register(request)
@@ -18,3 +19,6 @@ def process_ranking_message(event, context):
 
 def log_ranking_results_message(event, context):
   log_ranking_results(event, context)
+
+def add_ranking_message(event, context):
+  add_ranking(event, context)
