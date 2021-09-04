@@ -1,6 +1,6 @@
 from flask import abort, Response
 import validators
-from storage import register_new_user, UserAlreadyAdded
+from register.storage import register_new_user, UserAlreadyAdded
 from werkzeug.exceptions import BadRequest
 
 def bad_request(message, headers):

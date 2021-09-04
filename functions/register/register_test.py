@@ -1,4 +1,4 @@
-from main import register
+from register.register import register
 from unittest.mock import Mock
 from pytest import raises
 from werkzeug import exceptions
@@ -25,4 +25,5 @@ def test_can_register():
     'rank_site': 'greycastle.se'
   })
   response = register(request)
-  assert response == 'already added'
+  cors_headers = { 'Access-Control-Allow-Origin': '*' }
+  assert response == ('already added', 200, cors_headers)
