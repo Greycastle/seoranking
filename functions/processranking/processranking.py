@@ -1,15 +1,9 @@
-from publisher import publish
-from storage import get_rankings
+from processranking.publisher import publish
+from processranking.storage import get_rankings
 from datetime import datetime
-import firebase_admin
-from firebase_admin import credentials
-import os
+from common.firebase import init_firebase
 
-PROJECT_ID = os.getenv('GCP_PROJECT')
-cred = credentials.ApplicationDefault()
-firebase_admin.initialize_app(cred, {
-  'projectId': PROJECT_ID,
-})
+init_firebase()
 
 def process_ranking(event, context):
   rankings = get_rankings()

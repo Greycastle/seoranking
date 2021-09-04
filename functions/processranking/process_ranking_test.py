@@ -1,19 +1,19 @@
 import datetime
 import mock
-from main import process_ranking, find_next_ranking
+from processranking.processranking import process_ranking, find_next_ranking
 
 def get_datetime(hours_diff=0):
   return datetime.datetime.now() + datetime.timedelta(hours=hours_diff)
 
 def test_skips_if_none_found():
-  with mock.patch('main.get_rankings') as get_rankings_mock:
+  with mock.patch('processranking.processranking.get_rankings') as get_rankings_mock:
     get_rankings_mock.return_value = []
-    with mock.patch('main.publish') as publish_mock:
+    with mock.patch('processranking.processranking.publish') as publish_mock:
       process_ranking({}, mock.Mock())
       publish_mock.assert_not_called()
 
 def test_publishes_next_waiting():
-  with mock.patch('main.get_rankings') as get_rankings_mock:
+  with mock.patch('processranking.processranking.get_rankings') as get_rankings_mock:
     expected = {
       'user': 'david@greycastle.se',
       'rank_site': 'greycastle.se',
@@ -21,7 +21,7 @@ def test_publishes_next_waiting():
       'last_ranked': get_datetime(hours_diff=-4)
     }
     get_rankings_mock.return_value = [ expected ]
-    with mock.patch('main.publish') as publish_mock:
+    with mock.patch('processranking.processranking.publish') as publish_mock:
       process_ranking({}, mock.Mock())
       expected.pop('last_ranked')
       publish_mock.assert_called_once_with('rank', expected)

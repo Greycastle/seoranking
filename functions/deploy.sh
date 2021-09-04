@@ -13,5 +13,5 @@ echo "Deploying.."
 gcloud functions deploy get_stats --entry-point get_stats_http --project $PROJECT --runtime python37 --trigger-http
 gcloud functions deploy register --entry-point register_http --project $PROJECT --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy rank --entry-point rank_message --project $PROJECT --runtime python37 --trigger-topic rank
-$SCRIPT_DIR/process_ranking/deploy.sh
+gcloud functions deploy process_ranking --entry-point process_ranking_message --project $PROJECT --runtime python37 --trigger-topic process-ranking
 $SCRIPT_DIR/log_ranking_results/deploy.sh
