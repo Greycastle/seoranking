@@ -1,16 +1,7 @@
-import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import firestore
 from datetime import datetime, timezone
-import os
 
 def get_rankings():
-  PROJECT_ID = os.getenv('GCP_PROJECT')
-  cred = credentials.ApplicationDefault()
-  firebase_admin.initialize_app(cred, {
-    'projectId': PROJECT_ID,
-  })
-
   db = firestore.client()
 
   active_users = db.collection('users').where('ranks_left', '>', 0).stream()
@@ -26,6 +17,7 @@ def get_rankings():
     for user_ranking in user_rankings:
       last_ranked = user_ranking.get('last_ranked', None)
       if not is_past_schedule(schedule, last_ranked):
+        print(f"Skipping {user_ranking['site']} since it's not past schedule..")
         continue
 
       rankings.append({

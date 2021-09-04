@@ -7,6 +7,7 @@ def bill_user(db, user):
     'ranks_left': ranks_left,
     'ranks_used': ranks_used
   })
+  print(f"Billed {user} one credit, {ranks_left} credits remaining")
 
 def log_latest_result(db, user, keyword, rank_site, rank, timestamp):
   user_doc = next(db.collection('users').where('email', '==', user).stream(), None)
@@ -26,6 +27,7 @@ def log_latest_result(db, user, keyword, rank_site, rank, timestamp):
   user_doc.reference.update({
     'rankings': all_rankings
   })
+  print(f"Updated site {rank_site} ranking for '{keyword}' to position: {rank}")
 
 class NoSuchRanking(Exception):
   pass

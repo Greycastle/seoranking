@@ -12,6 +12,6 @@ echo "Switched to $PROJECT"
 echo "Deploying.."
 gcloud functions deploy get_stats --source stats --runtime python37 --trigger-http
 gcloud functions deploy register --source register --runtime python37 --trigger-http --allow-unauthenticated
-gcloud functions deploy rank --source rank --runtime python37 --trigger-topic rank
-gcloud functions deploy process_ranking --source processranking --runtime python37 --trigger-topic process-ranking
-gcloud functions deploy log_ranking_results --source logresults --runtime python37 --trigger-topic ranking-results
+$SCRIPT_DIR/rank/deploy.sh
+$SCRIPT_DIR/process_ranking/deploy.sh
+$SCRIPT_DIR/log_ranking_results/deploy.sh
