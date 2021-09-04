@@ -9,7 +9,7 @@ def exists(username):
   doc = next(db.collection('users').where('email', '==', username.lower()).stream(), None)
   return doc != None
 
-def register_new_user(username, keyword, rank_site):
+def register_new_user(username):
   if exists(username):
     raise UserAlreadyAdded()
 
@@ -21,15 +21,10 @@ def register_new_user(username, keyword, rank_site):
     'added': now,
     'ranks_left': DEFAULT_RANKS,
     'days_schedule': DEFAULT_SCHEDULE_DAYS,
-    'rankings': [
-      {
-        'site': rank_site,
-        'keyword': keyword,
-        'added': now
-      }
-    ]
+    'rankings': []
   }
   db.collection(u'users').add(user)
+  print('Added new user')
 
 class UserAlreadyAdded(Exception):
   pass

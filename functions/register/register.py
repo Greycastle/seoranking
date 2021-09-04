@@ -1,7 +1,8 @@
-from flask import abort, Response
+from flask import Response
 import validators
 from register.storage import register_new_user, UserAlreadyAdded
 from werkzeug.exceptions import BadRequest
+from common.publisher import publish
 
 def bad_request(message, headers):
   raise BadRequest(message, Response(message, 400, headers=headers))
@@ -32,7 +33,13 @@ def register(request):
       bad_request(f'user is not a valid email: {user}', headers)
 
     try:
-      register_new_user(username=user, keyword=query, rank_site=rank_site)
+      register_new_user(user)
+      publish('add-ranking', {
+        'user': user,
+        'rank_site': rank_site,
+        'keyword': query
+      })
+      print(f'Requested ranking for {rank_site} to be added')
       return ('ok', 200, headers)
     except UserAlreadyAdded:
       return ('already added', 200, headers)
