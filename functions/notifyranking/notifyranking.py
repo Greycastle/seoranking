@@ -15,13 +15,15 @@ def notify_ranking(event, context):
 def build_email(ranking, site, keyword):
   return f"""
   Hi!
-  Your rank for {site} and keywords '{keyword}' was just updated.
+  <p>Your rank for {site} and keywords '{keyword}' was just updated.</p>
 
-  You are now ranking on {ranking} place.
+  <p>You are now ranking on {ranking} place.</p>
 
-  Check out your current and new rankings on the <a href="https://rank.greycastle.se/history.html">History page</a>.
+  <p>Check out your current and new rankings on the <a href="https://rank.greycastle.se/history.html">History page</a>.</p>
 
-  If you wonder about anything, feel free to respond to this email, it goes straight to my inbox.
+  <p>If you wonder about anything, feel free to respond to this email, it goes straight to my inbox.</p>
 
-  See you next time!
+  <p>See you next time!<br />
+  Kind regards,<br/>
+  David</p>
   """
