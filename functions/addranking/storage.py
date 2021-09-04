@@ -27,6 +27,8 @@ def save_ranking(user, rank_site, keyword):
     'rankings': rankings
   })
 
+  print(f"Added ranking for keyword '{keyword}' for site {rank_site}")
+
 class RankingExistsException(Exception):
   pass
 
