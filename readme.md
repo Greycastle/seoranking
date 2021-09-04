@@ -19,8 +19,8 @@ pip install functions-framework
 Then to run a specific function, cd into the directory and run the following, replacing it with the function name:
 
 ```shell
-cd functions/helloworld
-functions_framework --target hello_http
+cd functions
+functions_framework --target register_http
 ```
 
 You can now call this method on [http://localhost:8080](http://localhost:8080).
@@ -45,7 +45,13 @@ I use [pytest](https://docs.pytest.org/) for running unit tests. This helps iter
 Run it by
 
 ```shell
-pyenv exec pytest
+pytest
+```
+
+This will run all tests in the folder though, so you may want to filter out only specific tests for the function you are testing, for example:
+
+```shell
+pytest rank/*
 ```
 
 To test publishers and similar you need to allow Google to give permissions to use your account to authenticate to stuff like pubsub.
