@@ -8,3 +8,6 @@ requests
 python_firebase
 google-cloud-logging
 apiflask
+
+# mailer
+sendgrid
