@@ -1,23 +1,14 @@
-import datetime
-from inspect import unwrap
-
 from werkzeug.exceptions import BadRequest, Unauthorized
-import firebase_admin
 from firebase_admin import auth
-from firebase_admin import credentials
-import os
 from flask import abort, Response
-from data_source import read_stats, NoSuchUser
+from stats.data_source import read_stats, NoSuchUser
 import re
 import logging
+from common.firebase import init_firebase
 
 logger = logging.getLogger(__name__)
 
-PROJECT_ID = os.getenv('GCP_PROJECT')
-cred = credentials.ApplicationDefault()
-firebase_app = firebase_admin.initialize_app(cred, {
-  'projectId': PROJECT_ID,
-})
+init_firebase()
 
 def unauthorized(message, headers):
   raise Unauthorized(message, Response(message, 401, headers=headers))

@@ -1,5 +1,5 @@
 from unittest import mock
-from main import get_stats
+from stats.stats import get_stats
 from pytest import raises
 from werkzeug import exceptions
 

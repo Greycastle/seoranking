@@ -5,3 +5,6 @@ mock
 google-cloud-pubsub
 bs4
 requests
+python_firebase
+google-cloud-logging
+apiflask
