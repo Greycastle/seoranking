@@ -35,6 +35,7 @@ def rank(event, context):
   save(results)
 
   # trigger that rank is saved
+  results['timestamp'] = results['timestamp'].isoformat()
   publish('ranking-results', results)
 
 def get_position(results, rank_site):
