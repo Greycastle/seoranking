@@ -21,7 +21,7 @@ def read_stats(user_name):
     item['rankings'] = len(items_rankings)
     item['downloadId'] = base64.b64encode(json.dumps({'keyword': item['keyword'], 'site': item['site'], 'user': user_name}).encode()).decode()
     if (len(items_rankings) > 0):
-      recent = items_rankings[0]
+      recent = items_rankings[-1]
       item['lastRanking'] = recent['position']
       item['lastConfirmed'] = recent['timestamp'].isoformat()
 

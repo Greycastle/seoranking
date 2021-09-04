@@ -16,7 +16,6 @@ def test_get_stats_fails_with_bad_token():
       get_stats(request)
 
 def test_get_stats():
-
   request = mock.Mock(headers={'authorization': 'Bearer mock-token'})
   mock_user = {
     'email': 'david@greycastle.se'
