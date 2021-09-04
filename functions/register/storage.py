@@ -1,14 +1,8 @@
-import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import firestore
+from common.firebase import init_firebase
 import datetime
-import os
 
-PROJECT_ID = os.getenv('GCP_PROJECT')
-cred = credentials.ApplicationDefault()
-firebase_admin.initialize_app(cred, {
-  'projectId': PROJECT_ID,
-})
+init_firebase()
 db = firestore.client()
 
 def exists(username):

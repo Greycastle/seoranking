@@ -1,7 +1,7 @@
 import base64
 import json
 import mock
-from main import rank, get_position
+from rank.rank import rank, get_position
 
 mock_context = mock.Mock()
 

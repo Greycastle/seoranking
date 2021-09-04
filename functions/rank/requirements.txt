@@ -1,5 +1,0 @@
-mock
-google-cloud-pubsub
-bs4
-requests
-firebase-admin

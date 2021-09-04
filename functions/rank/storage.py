@@ -1,15 +1,9 @@
-import firebase_admin
-from firebase_admin import credentials
 from firebase_admin import firestore
-import os
+from common.firebase import init_firebase
+
+init_firebase()
 
 def save(entry):
-  PROJECT_ID = os.getenv('GCP_PROJECT')
-  cred = credentials.ApplicationDefault()
-  firebase_admin.initialize_app(cred, {
-    'projectId': PROJECT_ID,
-  })
-
   timestamp = '{:%Y%m%d_%H%M%S_%f}'.format(entry['timestamp'])
   db = firestore.client()
 

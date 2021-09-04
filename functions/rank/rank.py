@@ -1,7 +1,10 @@
-from google_search import run_search
-from publisher import publish
-from storage import save
+from rank.google_search import run_search
+from rank.publisher import publish
+from rank.storage import save
 from datetime import datetime
+from common.firebase import init_firebase
+
+init_firebase()
 
 def rank(event, context):
 
