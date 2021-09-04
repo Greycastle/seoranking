@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from time import sleep
+from random import randint
 
 def run_search(query, stop_on):
   query = query.replace(' ', '+').lower()
@@ -54,8 +56,12 @@ def parse_page(content, stop_on, pages_left = 5):
       print(f"Got [{next_page.status_code}] for url {next_page_url}, aborting")
       return results
 
+    random_delay()
     next_page_results = parse_page(content=next_page.content, stop_on=stop_on, pages_left=pages_left - 1)
     return results + next_page_results
+
+def random_delay():
+  sleep(randint(1, 5))
 
 def is_match(find_site, sites):
   for site in sites:
