@@ -27,6 +27,31 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="images/favicon.png">
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function(){
+      function signUp() {
+        $('#first-view').fadeOut(250, function(){
+          // const url = 'https://us-central1-seoranking-324303.cloudfunctions.net/register';
+          const url = 'http://localhost:8081/';
+          const query_escaped = encodeURIComponent($('#keyword').val())
+          const user = $('#email').val()
+          const rankSite = $('#site').val()
+          const query = `?query=${query_escaped}&rank_site=${rankSite}&user=${user}`
+          $.post(url + query, function() {
+            // all done
+            $('#signed-up').fadeIn(250)
+          })
+        })
+      }
+
+      $('#sign-up').click(function() {
+        signUp()
+        return false
+      })
+    })
+  </script>
+
 </head>
 <body>
 
@@ -40,39 +65,53 @@
       </p>
     </section>
 
-    <div class="page-section">
-      <h3>Get started</h3>
-      <p>
-          Enter your email to get reports to here and then your keyword and your site:
-      </p>
-      <form class="form">
-        <div class="row">
-            <p>
-                <label for="project-id">Keyword</label>
-                <input placeholder="yummy greens" class="remember-input u-full-width" type="text" id="project-id">
+    <div id="first-view">
+      <div class="page-section">
+        <h3>Get started</h3>
+        <p>
+            Enter your email to get reports to here and then your keyword and your site:
+        </p>
+        <form class="form">
+          <div class="row">
+              <p>
+                  <label for="keyword">Keyword</label>
+                  <input placeholder="yummy greens" class="remember-input u-full-width" type="text" id="keyword">
 
-            </p>
-            <p>
-              <label for="site">Site</label>
-              <input placeholder="greens.zed" class="remember-input u-full-width" type="text" id="site">
-            </p>
-            <p>
-              <label for="api-key">Email</label>
-              <input placeholder="sales@greens.zed" class="remember-input u-full-width" type="email" id="email">
-            </p>
-        </div>
-        <p><button id="load" class="button-primary">Check ranking!</button></p>
-      </form>
+              </p>
+              <p>
+                <label for="site">Site</label>
+                <input placeholder="greens.zed" class="remember-input u-full-width" type="text" id="site">
+              </p>
+              <p>
+                <label for="api-key">Email</label>
+                <input placeholder="sales@greens.zed" class="remember-input u-full-width" type="email" id="email">
+              </p>
+          </div>
+          <p><button id="sign-up" class="button-primary" type="button">Check ranking!</button></p>
+        </form>
+      </div>
+
+      <div class="page-section">
+        <h3>Already started?</h3>
+        <p>
+            If you've already registered, log in to see your recent ranking history.
+        </p>
+        <p>
+          <a class="button button-primary" href="login.html">Check your ranking history</a>
+        </p>
+      </div>
     </div>
-
-    <div class="page-section">
-      <h3>Already started?</h3>
-      <p>
-          If you've already registered, log in to see your recent ranking history.
-      </p>
-      <p>
-        <a class="button button-primary" href="login.html">Check your ranking history</a>
-      </p>
+    <div id="signed-up">
+      <div class="page-section">
+        <h3>Registered!</h3>
+        <p>
+            All set up! Welcome onboard! <br/>
+            Give it a minute and we'll start checking your rank.
+        </p>
+        <p>
+          <a class="button button-primary" href="login.html">Login to check your rank</a>
+        </p>
+      </div>
     </div>
 
     <div class="page-section">
