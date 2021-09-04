@@ -1,4 +1,4 @@
-from processranking.publisher import publish
+from common.publisher import publish
 from processranking.storage import get_rankings
 from datetime import datetime
 from common.firebase import init_firebase
