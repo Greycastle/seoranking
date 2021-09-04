@@ -7,11 +7,11 @@ from logresults.logresults import log_ranking_results
 def register_http(request):
   return register(request)
 
+def get_stats_http(request):
+  return get_stats(request)
+
 def rank_message(event, context):
   rank(event, context)
-
-def get_stats_http(request):
-  get_stats(request)
 
 def process_ranking_message(event, context):
   process_ranking(event, context)
