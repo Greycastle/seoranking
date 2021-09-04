@@ -88,9 +88,8 @@
             row.append(`<td>${ranking.keyword}</td>`)
             row.append(`<td>${Humanize.ordinal(ranking.lastRanking)} place</td>`)
             row.append(`<td>${humanizeDuration(new Date() - timestamp, { round: true, largest: 1 })} ago</td>`)
-            row.append(`<td>${ranking.rankings}</td>`)
             const url = `someservice/${ranking.downloadId}`
-            row.append(`<td><a href="${url}">Download CSV</a></td>`)
+            row.append(`<td><a href="${url}">Download past ${ranking.rankings} rankings</a></td>`)
           }
 
           $('#loading').fadeOut(250)
@@ -125,15 +124,14 @@
 
     <div class="page-section">
       <h3>Rank history</h3>
-      <table>
+      <table style="width: 100%">
         <thead>
           <tr>
             <th>Site</th>
             <th>Keyword</th>
             <th>Last ranking</th>
             <th>Last confirmed</th>
-            <th>Confirmed</th>
-            <th>Download</th>
+            <th>Ranking statistics</th>
           </tr>
         </thead>
         <tbody>
