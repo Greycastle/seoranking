@@ -82,14 +82,21 @@
           $('#statRemaining').text(`${remainingEstimate} ${Humanize.pluralize(remainingEstimate, 'day')}`)
 
           for (let ranking of data.items) {
-            const timestamp = Date.parse(ranking.lastConfirmed)
             const row = $('tbody').append("<tr></tr>")
             row.append(`<td>${ranking.site}</td>`)
             row.append(`<td>${ranking.keyword}</td>`)
-            row.append(`<td>${Humanize.ordinal(ranking.lastRanking)} place</td>`)
-            row.append(`<td>${humanizeDuration(new Date() - timestamp, { round: true, largest: 1 })} ago</td>`)
-            const url = `someservice/${ranking.downloadId}`
-            row.append(`<td><a href="${url}">Download past ${ranking.rankings} rankings</a></td>`)
+
+            if (ranking.lastRanking) {
+              row.append(`<td>${Humanize.ordinal(ranking.lastRanking)} place</td>`)
+              const timestamp = Date.parse(ranking.lastConfirmed)
+              row.append(`<td>${humanizeDuration(new Date() - timestamp, { round: true, largest: 1 })} ago</td>`)
+              const url = `someservice/${ranking.downloadId}`
+              row.append(`<td><a href="${url}">Download past ${ranking.rankings} rankings</a></td>`)
+            } else {
+              row.append('<td>Pending</td>')
+              row.append('<td>Pending</td>')
+              row.append('<td>Pending</td>')
+            }
           }
 
           $('#loading').fadeOut(250)
