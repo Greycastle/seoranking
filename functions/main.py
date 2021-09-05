@@ -3,7 +3,7 @@ from rank.rank import rank
 from stats.stats import get_stats
 from processranking.processranking import process_ranking
 from logresults.logresults import log_ranking_results
-from addranking.addranking import handle_add_ranking_event
+from addranking.addranking import handle_add_ranking_event, handle_add_ranking_request
 from mailer.mailer import handle_send_mail_event
 from notifyranking.notifyranking import notify_ranking
 
@@ -24,6 +24,9 @@ def log_ranking_results_message(event, context):
 
 def add_ranking_message(event, context):
   handle_add_ranking_event(event, context)
+
+def add_ranking_http(request):
+  return handle_add_ranking_request(request)
 
 def send_mail_message(event, context):
   handle_send_mail_event(event, context)

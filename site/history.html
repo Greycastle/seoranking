@@ -59,12 +59,17 @@
       'persistence': browserLocalPersistence
     });
 
+    let currentUser = null;
+
+    function addAuthToken(request) {
+      request.setRequestHeader('authorization', `bearer ${currentUser.accessToken}`)
+    }
+
     function load(user) {
+      currentUser = user;
       return new Promise(function (resolve, reject) {
         $.ajax({
-          beforeSend: function(request) {
-            request.setRequestHeader('authorization', `bearer ${user.accessToken}`)
-          },
+          beforeSend: addAuthToken,
           contentType: 'application/json',
           dataType: 'json',
           url: 'https://us-central1-seoranking-324303.cloudfunctions.net/get_stats',
@@ -112,8 +117,34 @@
       }
     })
 
+    function addRanking() {
+      const site = $('#site').val()
+      const keyword = $('#keyword').val()
+
+      $.ajax({
+        type: 'POST',
+        url: 'https://us-central1-seoranking-324303.cloudfunctions.net/add_ranking_endpoint',
+        beforeSend: addAuthToken,
+        data: JSON.stringify({ 'rank_site': site, keyword }),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function(data) {
+          console.log(data)
+        }
+      })
+
+      $('#add-ranking-form input').each(function() { $(this).prop('disabled', true) })
+      $('#add-ranking').prop('disabled', true)
+      $('#add-ranking').text('Adding..')
+    }
+
     $(document).ready(function() {
       $('#loading').fadeIn(250)
+
+      $('#add-ranking').click(function(e) {
+        addRanking()
+        return false
+      })
     })
   </script>
 
@@ -149,6 +180,29 @@
         <tbody>
         </tbody>
       </table>
+    </div>
+
+    <div class="page-section">
+      <h3>Add more rankings</h3>
+      <p>
+        You can add more keywords or sites as well:
+      </p>
+      <form id="add-ranking-form">
+        <div class="row">
+          <div class="six columns">
+              <label for="keyword">Keyword</label>
+              <input placeholder="yummy greens" class="remember-input u-full-width" type="text" id="keyword">
+
+          </div>
+          <div class="six columns">
+            <label for="site">Site</label>
+            <input placeholder="greens.zed" class="remember-input u-full-width" type="text" id="site">
+          </div>
+        </div>
+        <p>
+          <button id="add-ranking" class="button-primary" type="button">Add ranking</button>
+        </p>
+      </form>
     </div>
 
     <div class="page-section">

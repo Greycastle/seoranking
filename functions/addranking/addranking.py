@@ -1,8 +1,18 @@
 from common.publisher import publish
+from common.http import require_auth, enable_cors
 from addranking.storage import save_ranking, RankingExistsException
 
+@enable_cors
+@require_auth
 def handle_add_ranking_request(request):
-  pass
+  data = request.get_json()
+  publish('add-ranking', {
+    'user': request.user['email'],
+    'keyword': data['keyword'],
+    'rank_site': data['rank_site']
+  })
+
+  return 'ok'
 
 def handle_add_ranking_event(event, context):
   if not 'data' in event:

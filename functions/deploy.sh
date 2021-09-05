@@ -14,5 +14,6 @@ gcloud functions deploy rank --entry-point rank_message --project $PROJECT --run
 gcloud functions deploy process_ranking --entry-point process_ranking_message --project $PROJECT --runtime python37 --trigger-topic process-ranking
 gcloud functions deploy log_ranking_results --entry-point log_ranking_results_message --project $PROJECT --runtime python37 --trigger-topic ranking-results
 gcloud functions deploy add_ranking --entry-point add_ranking_message --project $PROJECT --runtime python37 --trigger-topic add-ranking
+gcloud functions deploy add_ranking_endpoint --entry-point add_ranking_http --project $PROJECT --runtime python37 --trigger-http  --allow-unauthenticated
 gcloud functions deploy send_mail --entry-point send_mail_message --project $PROJECT --runtime python37 --trigger-topic send-mail
 gcloud functions deploy notify_ranking --entry-point notify_ranking_message --project $PROJECT --runtime python37 --trigger-topic ranking-results
