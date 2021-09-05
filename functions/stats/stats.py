@@ -1,6 +1,6 @@
-from werkzeug.exceptions import BadRequest, Unauthorized
+
 from firebase_admin import auth
-from flask import abort, Response
+from common.http import bad_request, unauthorized
 from stats.data_source import read_stats, NoSuchUser
 import re
 import logging
@@ -9,12 +9,6 @@ from common.firebase import init_firebase
 logger = logging.getLogger(__name__)
 
 init_firebase()
-
-def unauthorized(message, headers):
-  raise Unauthorized(message, Response(message, 401, headers=headers))
-
-def bad_request(message, headers):
-  raise BadRequest(message, Response(message, 400, headers=headers))
 
 def get_stats(request):
   if request.method == 'OPTIONS':
@@ -41,4 +35,4 @@ def get_stats(request):
     data = read_stats(request.user['email'])
     return (data, 200, headers)
   except(NoSuchUser):
-    abort(404, 'No user found')
+    return ('No user found', 404, headers)

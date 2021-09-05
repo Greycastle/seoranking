@@ -1,6 +1,9 @@
 from common.publisher import publish
 from addranking.storage import save_ranking, RankingExistsException
 
+def handle_add_ranking_request(request):
+  pass
+
 def handle_add_ranking_event(event, context):
   if not 'data' in event:
     print("No data in event, skipping")
