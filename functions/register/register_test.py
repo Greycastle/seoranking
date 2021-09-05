@@ -25,5 +25,4 @@ def test_can_register():
     'rank_site': 'greycastle.se'
   })
   response = register(request)
-  cors_headers = { 'Access-Control-Allow-Origin': '*' }
-  assert response == ('already added', 200, cors_headers)
+  assert response[0] == 'already added'
