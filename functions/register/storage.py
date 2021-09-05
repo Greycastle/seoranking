@@ -20,7 +20,7 @@ def register_new_user(username):
     'email': username.lower(),
     'added': now,
     'ranks_left': DEFAULT_RANKS,
-    'days_schedule': DEFAULT_SCHEDULE_DAYS,
+    'schedule': DEFAULT_SCHEDULE_DAYS,
     'rankings': []
   }
   db.collection(u'users').add(user)
