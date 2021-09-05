@@ -1,4 +1,4 @@
-from addranking.addranking import add_ranking
+from addranking.addranking import handle_add_ranking_event
 from common.testing import get_event_from_dict
 import mock
 
@@ -10,7 +10,7 @@ def test_skips_existing_ranking():
   })
 
   with mock.patch('addranking.addranking.publish') as publish_mock:
-    add_ranking(event, mock.Mock())
+    handle_add_ranking_event(event, mock.Mock())
     publish_mock.assert_not_called()
 
 def test_triggers_ranking_after_adding():
@@ -24,5 +24,5 @@ def test_triggers_ranking_after_adding():
   with mock.patch('addranking.addranking.save_ranking') as save_mock:
     save_mock.return_value = None
     with mock.patch('addranking.addranking.publish') as publish_mock:
-      add_ranking(event, mock.Mock())
+      handle_add_ranking_event(event, mock.Mock())
       publish_mock.assert_called_once_with('rank', event_data)
