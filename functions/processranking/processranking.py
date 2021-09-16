@@ -1,6 +1,6 @@
 from common.publisher import publish
 from processranking.storage import get_rankings
-from datetime import datetime
+from datetime import datetime, timezone
 from common.firebase import init_firebase
 
 init_firebase()
@@ -27,5 +27,5 @@ def find_next_ranking(rankings):
     return None
 
   sorted = list(rankings)
-  sorted.sort(key=(lambda x: x['last_ranked'] or datetime(1, 1, 1)))
+  sorted.sort(key=(lambda x: x['last_ranked'] or datetime(1, 1, 1, 0, 0, 0, 0, timezone.utc)))
   return sorted[0]

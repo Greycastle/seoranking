@@ -1,9 +1,9 @@
-import datetime
+from datetime import datetime, timezone, timedelta
 import mock
 from processranking.processranking import process_ranking, find_next_ranking
 
 def get_datetime(hours_diff=0):
-  return datetime.datetime.now() + datetime.timedelta(hours=hours_diff)
+  return datetime.now(timezone.utc) + timedelta(hours=hours_diff)
 
 def test_skips_if_none_found():
   with mock.patch('processranking.processranking.get_rankings') as get_rankings_mock:
