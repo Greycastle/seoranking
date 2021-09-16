@@ -3,7 +3,7 @@ from common.testing import get_event_from_dict
 from datetime import datetime
 import mock
 
-def test_notifies_on_new_ranking():
+def test_notifies_on_new_ranking_if_no_previous():
   event = get_event_from_dict({
     'user': 'test@greycastle.se',
     'keyword': 'greycastle',

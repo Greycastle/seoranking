@@ -1,16 +1,28 @@
 from common.publisher import publish
 from common.events import get_event_data
+from notifyranking.storage import get_last_ranking
 
 def notify_ranking(event, context):
   data = get_event_data(event)
-
   site = data['rank_site']
+  position = data['position']
+  keyword = data['keyword']
+  user = data['user']
+
+  if not rank_changed(user, site, keyword, position):
+    print(f"Rank for site '{site}' on '{keyword}' is still ranking {position}, skipping email notification")
+    return
+
   publish('send-mail', {
     'from': 'david@greycastle.se',
-    'to': data['user'],
+    'to': user,
     'subject': f'New ranking update for {site}',
-    'html_content': build_email(data['position'], site, data['keyword'])
+    'html_content': build_email(position, site, keyword)
   })
+
+def rank_changed(user, site, keyword, position):
+  last_ranking = get_last_ranking(user, keyword, site)
+  return last_ranking != position
 
 def build_email(ranking, site, keyword):
   return f"""
