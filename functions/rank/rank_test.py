@@ -6,10 +6,15 @@ from rank.rank import rank, get_position
 mock_context = mock.Mock()
 
 def test_rank():
+  # data = {
+  #   "user": "david@greycastle.se",
+  #   "keyword": "greycastle",
+  #   "rank_site": "greycastle.se"
+  # }
   data = {
     "user": "david@greycastle.se",
-    "keyword": "greycastle",
-    "rank_site": "greycastle.se"
+    "keyword": "EDIFICE スクランブルスクエア店",
+    "rank_site": "facy.jp"
   }
 
   message_contents = base64.b64encode(json.dumps(data).encode())

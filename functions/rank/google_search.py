@@ -25,14 +25,22 @@ def parse_page(content, stop_on, pages_left = 5):
     found = []
     matches = soup.select('div.g')
     for match in matches:
-        link = match.select('a')[0]
+        links = match.select('a')
+        if len(links) == 0:
+          continue
+
+        link = links[0]
         link_id = link['data-ved']
         # skip previous match
         if link_id in found:
           continue
 
         found.append(link_id)
-        title = link.select('h3')[0]
+        headers = link.select('h3')
+        if len(headers) == 0:
+          continue
+
+        title = headers[0]
         results.append({
           'link': link['href'].lower(),
           'title': title.text
@@ -50,7 +58,6 @@ def parse_page(content, stop_on, pages_left = 5):
       return results
 
     next_page_url = "https://www.google.com" + navigation[-1]['href']
-    # print(f"got next page: {next_page_url}")
     next_page = get_url(next_page_url)
     if next_page.status_code != 200:
       print(f"Got [{next_page.status_code}] for url {next_page_url}, aborting")
