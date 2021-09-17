@@ -120,6 +120,7 @@
     function addRanking() {
       const site = $('#site').val()
       const keyword = $('#keyword').val()
+      localStorage.setItem('last-site', site)
 
       $.ajax({
         type: 'POST',
@@ -140,6 +141,8 @@
 
     $(document).ready(function() {
       $('#loading').fadeIn(250)
+
+      $('#site').val(localStorage.getItem('last-site'))
 
       $('#add-ranking').click(function(e) {
         addRanking()
