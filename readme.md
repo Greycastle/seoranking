@@ -6,6 +6,15 @@ Tool to let people who can't afford huge tools like SEM Rush to get on track wit
 
 As a development environment, you can load all your environment key secrets using a `source .env`.
 
+## Site
+
+To run site, use the [http-server](https://www.npmjs.com/package/http-server) npm package:
+
+```
+cd site
+http-server
+```
+
 ## Functions
 
 In the `functions` folder all cloud functions are stored.
