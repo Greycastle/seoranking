@@ -2,6 +2,7 @@
   <div class="container">
     <section class="header">
       <h2 class="title">Rank details</h2>
+      <router-link to="/dashboard">To dashboard</router-link>
     </section>
 
     <PromiseBuilder :promise="loadPromise" v-if="loadPromise">
@@ -17,8 +18,14 @@
       </template>
       <template #fulfilled>
         <div class="page-section">
+          <h3>Ranking</h3>
+          <p>Tracking <b>{{ site }}</b> for keyword <b>{{ keyword }}</b></p>
+          <button @click="share">{{ copied ? "Copied to clipboard!" : "Share this page" }}</button>
+        </div>
+        <div class="page-section">
           <h3>Ranking statistics</h3>
-          <RankChart :dataPoints="statistics" />
+          <RankChart :dataPoints="statistics" v-if="hasRanks" />
+          <p v-else>This keyword has not ranked since it started being tracked.</p>
         </div>
 
         <div class="page-section">
@@ -44,6 +51,7 @@
 import { useRoute } from 'vue-router'
 import RankChart from '@/components/RankChart'
 import getDetails from '@/services/details'
+import useClipboard from 'vue-clipboard3'
 
 export default {
   components: {
@@ -54,6 +62,9 @@ export default {
       loadPromise: null,
       id: 'pending..',
       competitors: [],
+      keyword: null,
+      site: null,
+      copied: false,
       statistics: [
         { date: new Date(2021, 9, 14), rank: 1 },
         { date: new Date(2021, 9, 15), rank: 2 },
@@ -65,6 +76,14 @@ export default {
       ]
     }
   },
+  methods: {
+    async share() {
+      const { toClipboard} = useClipboard()
+      await toClipboard(window.location.href)
+      this.copied = true
+      setTimeout(() => this.copied = false, 2500)
+    }
+  },
   async mounted() {
     const route = useRoute()
     this.id = route.params.id
@@ -72,13 +91,28 @@ export default {
     const data = await this.loadPromise
     this.competitors = data.competitors
 
-    this.statistics = data.stats.map((stat) => ({date: Date.parse(stat.date), rank: stat.rank}))
+    this.site = data.ranking.site
+    this.keyword = data.ranking.keyword
+    this.statistics = data.stats.map((stat) => {
+      return {
+        date: Date.parse(stat.date),
+        rank: stat.rank
+      }
+    }).filter((item) => item.rank !== null)
 
     const siteRegex = new RegExp('(http|https)://(.+\\.)?' + 'greycastle.se')
     for (let competitor of this.competitors) {
       competitor.matchClass = competitor.link.match(siteRegex) ? 'match' : ''
     }
-  }
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$auth.user != null
+    },
+    hasRanks() {
+      return this.statistics.length > 0
+    }
+  },
 }
 </script>
 
