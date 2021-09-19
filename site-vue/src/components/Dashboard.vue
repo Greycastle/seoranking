@@ -8,30 +8,7 @@
         </p>
       </section>
 
-      <div class="page-section">
-        <h3>Rank history</h3>
-        <table v-if="loaded" style="width: 100%">
-          <thead>
-            <tr>
-              <th>Site</th>
-              <th>Keyword</th>
-              <th>Last ranking</th>
-              <th>Last confirmed</th>
-              <th>Ranking statistics</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="ranking in rankings" :key="ranking.keyword">
-              <td>{{ ranking.site }}</td>
-              <td>{{ ranking.keyword }}</td>
-              <td>{{ getRanking(ranking.lastRanking) }}</td>
-              <td>{{ getTimeAgo(ranking.lastConfirmed) }} ago</td>
-              <td><a href="...">Download past {{ranking.rankingsTotal}} rankings</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <Skeletor height="200" v-if="loading" as="div" />
-      </div>
+      <RankingTable :rankings="rankings" :loading="loading" :loaded="loaded" />
 
       <div class="page-section">
         <AddRanking @added="onAdded" :defaultSite="defaultSite" />
@@ -58,14 +35,16 @@
 </template>
 
 <script>
-import { pluralize, ordinal } from 'humanize-plus'
-import humanizeDuration from 'humanize-duration'
+import { pluralize } from 'humanize-plus'
+
 import getRankingData from '@/services/rankingData'
 import AddRanking from '@/components/AddRanking'
+import RankingTable from '@/components/RankingTable'
 
 export default {
   components: {
-    AddRanking
+    AddRanking,
+    RankingTable
   },
   data() {
     return {
@@ -79,19 +58,6 @@ export default {
     async logout() {
       await this.$auth.logout()
       this.$router.push('signed-out')
-    },
-    toOrdinal(val) {
-      return ordinal(val)
-    },
-    getTimeAgo(date) {
-      return humanizeDuration(new Date() - date, { round: true, largest: 1 })
-    },
-    getRanking(rank) {
-      if (rank) {
-        return `${this.toOrdinal(rank)} place`
-      }
-
-      return 'Pending..'
     },
     async load() {
       this.state = 'loading'
