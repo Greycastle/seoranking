@@ -26,9 +26,11 @@ import DefaultLayout from './layouts/DefaultLayout'
 // Global components
 import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
+import Footer from '@/components/Footer'
 
 const app = createApp(DefaultLayout)
 app.use(router)
 app.use(auth, { firebaseApp })
 app.component(Skeletor.name, Skeletor);
+app.component('Footer', Footer);
 app.mount('#app')
