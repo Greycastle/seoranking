@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div class="container" v-if="loading">
-      <div id="loader" class="loader loader-default is-active" data-half=""></div>
-    </div>
-
-    <div class="container" v-if="loaded">
+    <div class="container">
       <section class="header">
         <h2 class="title">History</h2>
         <p>
@@ -14,7 +10,7 @@
 
       <div class="page-section">
         <h3>Rank history</h3>
-        <table style="width: 100%">
+        <table v-if="loaded" style="width: 100%">
           <thead>
             <tr>
               <th>Site</th>
@@ -34,6 +30,7 @@
             </tr>
           </tbody>
         </table>
+        <Skeletor height="200" v-if="loading" as="div" />
       </div>
 
       <div class="page-section">
@@ -61,13 +58,17 @@
 
       <div class="page-section">
         <h3>Credit status</h3>
-        <p>
-          You have done <b>{{ account.ranksTotal }}</b> rank checks this far and have another <b>{{ account.ranksRemaining }}</b> remaining. As you are running a rank check <b>{{ schedule }}</b> on <b>1 keyword</b> it will last for another <b>{{ daysLeft }}</b>.
-        </p>
-        <h3>Running out?</h3>
-        <p>
-          No worries! Right now, this service is completely new and still in BETA so if you need more funds, send me an email at <a href="mailto:david@greycastle.se?subject=I%20need%20more%20credits!">david@greycastle.se</a> and I'll sort it out for free!
-        </p>
+        <Skeletor v-if="loading" />
+        <Skeletor v-if="loading" />
+        <div v-if="loaded">
+          <p>
+            You have done <b>{{ account.ranksTotal }}</b> rank checks this far and have another <b>{{ account.ranksRemaining }}</b> remaining. As you are running a rank check <b>{{ schedule }}</b> on <b>1 keyword</b> it will last for another <b>{{ daysLeft }}</b>.
+          </p>
+          <h3>Running out?</h3>
+          <p>
+            No worries! Right now, this service is completely new and still in BETA so if you need more funds, send me an email at <a href="mailto:david@greycastle.se?subject=I%20need%20more%20credits!">david@greycastle.se</a> and I'll sort it out for free!
+          </p>
+        </div>
       </div>
 
       <div class="page-section">
@@ -83,25 +84,14 @@
 <script>
 import { pluralize, ordinal } from 'humanize-plus'
 import humanizeDuration from 'humanize-duration'
+import getRankingData from '@/services/rankingData'
 
 export default {
   data() {
     return {
       state: 'loading',
-      rankings: [
-        {
-          site: 'greycastle.se',
-          keyword: 'greycastle flutter',
-          lastRanking: 1,
-          lastConfirmed: new Date(),
-          rankingsTotal: 12
-        }
-      ],
-      account: {
-        ranksTotal: 23,
-        ranksRemaining: 7,
-        rankSchedule: 3
-      }
+      rankings: [],
+      account: null
     }
   },
   methods: {
@@ -116,8 +106,17 @@ export default {
       return humanizeDuration(new Date() - date, { round: true, largest: 1 })
     }
   },
-  created() {
-    this.state = 'loaded'
+  async created() {
+    this.state = 'loading'
+    try {
+      const data = await getRankingData()
+      this.rankings = data.rankings
+      this.account = data.account
+      this.state = 'loaded'
+    } catch (err) {
+      this.state = 'error'
+      this.message = 'Something went wrong'
+    }
   },
   computed: {
     schedule() {
@@ -127,7 +126,7 @@ export default {
       const remainingEstimate = Math.floor(this.account.ranksRemaining / ((1 / this.account.rankSchedule) * this.rankings.length))
       return `${remainingEstimate} ${pluralize(remainingEstimate, 'day')}`
     },
-    loading(){
+    loading() {
       return this.state == 'loading'
     },
     loaded() {
