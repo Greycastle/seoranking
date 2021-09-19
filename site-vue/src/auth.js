@@ -47,9 +47,9 @@ class Auth {
       const user = await this.authState
 
       if (requiresAuth && !user) {
-        next('login')
+        next('/login')
       } else if (redirectIfSignedIn && user) {
-        next('dashboard')
+        next('/dashboard')
       } else {
         next()
       }
