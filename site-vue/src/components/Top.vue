@@ -7,33 +7,10 @@
       </p>
     </section>
 
-    <div id="first-view">
-      <div class="page-section">
-        <h3>Get started</h3>
-        <p>
-            Enter your email to get reports to here and then your keyword and your site:
-        </p>
-        <form class="form">
-          <div class="row">
-              <p>
-                  <label for="keyword">Keyword</label>
-                  <input placeholder="yummy greens" class="remember-input u-full-width" type="text" id="keyword">
+    <div>
+      <Register @registered="onRegistered" />
 
-              </p>
-              <p>
-                <label for="site">Site</label>
-                <input placeholder="greens.zed" class="remember-input u-full-width" type="text" id="site">
-              </p>
-              <p>
-                <label for="api-key">Email</label>
-                <input placeholder="sales@greens.zed" class="remember-input u-full-width" type="email" id="email">
-              </p>
-          </div>
-          <p><button id="sign-up" class="button-primary" type="button">Check ranking!</button></p>
-        </form>
-      </div>
-
-      <div class="page-section">
+      <div v-if="showLogin" class="page-section">
         <h3>Already started?</h3>
         <p>
             If you've already registered, log in to see your recent ranking history.
@@ -43,25 +20,27 @@
         </p>
       </div>
     </div>
-    <div id="signed-up">
-      <div class="page-section">
-        <h3>Registered!</h3>
-        <p>
-            All set up! Welcome onboard! <br/>
-            Give it a minute and we'll start checking your rank.
-        </p>
-        <p>
-          <router-link class="button button-primary" to="'/login">Login to check your rank</router-link>
-        </p>
-      </div>
-    </div>
 
     <Footer/>
   </div>
 </template>
 
 <script>
-</script>
+import Register from '@/components/Register'
 
-<style scoped>
-</style>
+export default {
+  components: {
+    Register
+  },
+  data() {
+    return {
+      showLogin: true
+    }
+  },
+  methods: {
+    onRegistered() {
+      this.showLogin = false
+    }
+  }
+}
+</script>
