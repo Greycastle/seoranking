@@ -13,6 +13,13 @@
 </template>
 
 <script>
+export default {
+  created() {
+    setTimeout(() => {
+      this.$router.replace('/')
+    }, 5000)
+  }
+}
 </script>
 
 <style scoped>
