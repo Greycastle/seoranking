@@ -126,6 +126,7 @@ export default {
   border: 1px solid gray;
   border-radius: 8px;
   align-items: stretch;
+  width: 100%;
 }
 
 .competitor-card .rank {
@@ -135,7 +136,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 2em;
-  font-weight: bold
+  font-weight: bold;
 }
 
 .competitor-card .competitor {
@@ -151,10 +152,11 @@ export default {
 .competitor-card .url {
   font-size: 0.8em;
   opacity: 0.6;
+  text-overflow: ellipsis;
 }
 
 .competitor-card.match {
-  background: rgb(75, 192, 192);
+  background: #33F09E;
 }
 
 .competitor-card:hover {

@@ -24,7 +24,7 @@ export default {
         {
           label: 'Ranking',
           data: this.dataPoints.map((point) => point.rank),
-          borderColor: 'rgb(75, 192, 192)',
+          borderColor: '#33F09E',
         }
       ]
     }
