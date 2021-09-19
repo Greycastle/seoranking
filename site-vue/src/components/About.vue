@@ -10,7 +10,7 @@
       </p>
       <p>
         It's completely free to get started! <br/>
-        <a href="index.html" class="button button-primary">Check your ranking now</a>
+        <router-link :to="{ name: 'Top' }" class="button button-primary">Check your ranking now</router-link>
       </p>
     </section>
 
