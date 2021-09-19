@@ -53,12 +53,13 @@ export default {
       let host = `${window.location.protocol}//${window.location.hostname}`
       if (host.endsWith('localhost')) host = `${host}:${window.location.port}`
       const actionCodeSettings = {
-        url: `${host}/login.html`,
+        url: `${host}/login-by-url`,
         handleCodeInApp: true
       }
       const auth = getAuth();
       setPersistence(auth, browserLocalPersistence);
 
+      window.localStorage.setItem('email', this.email)
       await sendSignInLinkToEmail(auth, this.email, actionCodeSettings)
       this.state = 'sent'
     },
