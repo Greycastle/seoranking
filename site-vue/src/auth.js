@@ -1,5 +1,6 @@
 import {
   initializeAuth,
+  signOut,
   browserLocalPersistence,
   onAuthStateChanged,
   signInWithEmailLink,
@@ -68,6 +69,10 @@ class Auth {
     console.log(`Attempting login by email: ${email}`)
     await signInWithEmailLink(this.auth, email, window.location.href)
     console.log("Successfully logged in!")
+  }
+
+  async logout() {
+    await signOut(this.auth)
   }
 }
 

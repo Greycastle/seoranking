@@ -81,7 +81,6 @@
 </template>
 
 <script>
-import { getAuth, signOut } from "firebase/auth"
 import { pluralize, ordinal } from 'humanize-plus'
 import humanizeDuration from 'humanize-duration'
 
@@ -106,8 +105,8 @@ export default {
     }
   },
   methods: {
-    logout() {
-      signOut(getAuth())
+    async logout() {
+      await this.$auth.logout()
       this.$router.push('signed-out')
     },
     toOrdinal(val) {
