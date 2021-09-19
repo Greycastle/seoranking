@@ -18,7 +18,7 @@ class Auth {
     this.user = null
     this.error = null
 
-    const authState = new Promise((resolve, reject) => {
+    this.authState = new Promise((resolve, reject) => {
       onAuthStateChanged(this.auth, user => {
         this.user = user
         this.error = null
@@ -34,7 +34,7 @@ class Auth {
     router.beforeEach(async (to, _, next) => {
       const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
       const redirectIfSignedIn = to.matched.some(record => record.meta.redirectIfSignedIn);
-      const user = await authState
+      const user = await this.authState
 
       if (requiresAuth && !user) {
         next('login')
@@ -67,12 +67,14 @@ class Auth {
       throw Error('No email')
     }
     console.log(`Attempting login by email: ${email}`)
-    await signInWithEmailLink(this.auth, email, window.location.href)
-    console.log("Successfully logged in!")
+    this.user = await signInWithEmailLink(this.auth, email, window.location.href)
+    this.authState = Promise.resolve(this.user)
   }
 
   async logout() {
     await signOut(this.auth)
+    this.authState = Promise.resolve(false)
+    this.user = null
   }
 }
 
