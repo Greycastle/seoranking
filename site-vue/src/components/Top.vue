@@ -39,7 +39,7 @@
             If you've already registered, log in to see your recent ranking history.
         </p>
         <p>
-          <a class="button button-primary" href="login.html">Check your ranking history</a>
+          <router-link class="button button-primary" to="'/login">Check your ranking history</router-link>
         </p>
       </div>
     </div>
@@ -51,7 +51,7 @@
             Give it a minute and we'll start checking your rank.
         </p>
         <p>
-          <a class="button button-primary" href="login.html">Login to check your rank</a>
+          <router-link class="button button-primary" to="'/login">Login to check your rank</router-link>
         </p>
       </div>
     </div>
