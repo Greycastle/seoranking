@@ -23,6 +23,7 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'Top',
           component: Top,
           meta: {
             redirectIfSignedIn: true
@@ -44,6 +45,7 @@ const router = createRouter({
         },
         {
           path: 'dashboard',
+          name: 'Dashboard',
           component: Dashboard,
           meta: {
             requiresAuth: true
