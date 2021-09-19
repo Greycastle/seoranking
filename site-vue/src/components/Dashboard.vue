@@ -52,12 +52,7 @@
         </div>
       </div>
 
-      <div class="page-section">
-        <h3>About</h3>
-        <p>
-            This app is built by <a target="_blank" href="https://twitter.com/almundgrey">David</a> @ <a target="_blank" href="https://greycastle.se">Greycastle</a>, visuals based on the <a target="_blank" href="http://getskeleton.com/">Skeleton</a> css framework. <a href="about.html">About</a> | <a href="pricing.html">Pricing</a> | <a @click="logout">Logout</a>.
-        </p>
-      </div>
+      <Footer />
     </div>
   </div>
 </template>

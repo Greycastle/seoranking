@@ -12,7 +12,6 @@
     <slot v-if="pending" name="pending" />
     <slot v-else-if="fulfilled" name="fulfilled" :result="result" />
     <slot v-else-if="rejected" name="rejected" :error="error" />
-
     <slot v-if="settled" name="settled" :result="result" :error="error" />
   </div>
 </template>

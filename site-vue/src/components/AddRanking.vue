@@ -8,45 +8,44 @@
       <div class="row">
         <div class="six columns">
             <label for="keyword">Keyword</label>
-            <input :disabled="adding" placeholder="your keyword" v-model="keyword" class="remember-input u-full-width" type="text" id="keyword">
+            <input :disabled="isAdding" placeholder="your keyword" v-model="keyword" class="remember-input u-full-width" type="text" id="keyword">
 
         </div>
         <div class="six columns">
           <label for="site">Site</label>
-          <input :disabled="adding" placeholder="site.xyz" v-model="site" class="remember-input u-full-width" type="text" id="site">
+          <input :disabled="isAdding" placeholder="site.xyz" v-model="site" class="remember-input u-full-width" type="text" id="site">
         </div>
       </div>
       <p>
-        <button :disabled="adding" @click="add()" class="button-primary" type="button">{{ buttonText }}</button>
+        <button :disabled="isAdding" @click="add()" class="button-primary" type="button">{{ buttonText }}</button>
       </p>
-      <transition name="fade">
-        <p v-if="isAdded">
+      <PromiseBuilder :promise="addingPromise" v-if="addingPromise">
+        <template #fulfilled>
           Congrats, new keyword was added!
-        </p>
-      </transition>
-      <transition name="fade">
-        <p v-if="hasError">
+        </template>
+        <template #rejected>
           We're sorry, some error occurred. Please try again later.
-        </p>
-      </transition>
+        </template>
+      </PromiseBuilder>
     </form>
   </div>
 </template>
 
 <script>
 import addRanking from '@/services/addRanking'
+import PromiseBuilder from './PromiseBuilder.vue'
 
 export default {
+  components: { PromiseBuilder },
   props: {
     defaultSite: String
   },
   data() {
     return {
       site: null,
-      adding: false,
-      isAdded: false,
-      hasError: false,
-      keyword: null
+      keyword: null,
+      addingPromise: null,
+      isAdding: false
     }
   },
   watch: {
@@ -57,29 +56,15 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.adding ? 'Saving..' : 'Add ranking'
+      return this.isAdding ? 'Saving..' : 'Add ranking'
     }
   },
   methods: {
-    showError() {
-      this.hasError = true
-      setTimeout(() => this.hasError = false, 2500)
-    },
-    showAdded() {
-      this.isAdded = true
-      setTimeout(() => this.isAdded = false, 2500)
-    },
     async add() {
-      try {
-        this.adding = true
-        await addRanking(this.site, this.keyword)
-        this.adding = false
-        this.$emit('added', { site: this.site, keyword: this.keyword })
-        this.showAdded()
-      } catch(err) {
-        this.adding = false
-        this.showError()
-      }
+      this.isAdding = true
+      this.addingPromise = addRanking(this.site, this.keyword)
+      await this.addingPromise.finally(() => this.isAdding = false)
+      this.$emit('added', { site: this.site, keyword: this.keyword })
     }
   }
 }
