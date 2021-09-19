@@ -15,7 +15,10 @@
         <tr v-for="ranking in rankings" :key="ranking.keyword">
           <td>{{ ranking.site }}</td>
           <td>{{ ranking.keyword }}</td>
-          <td>{{ getRanking(ranking.lastRanking) }}</td>
+          <td>
+            <span v-if="ranking.lastRanking" :class="rankClass(ranking.lastRanking)">{{ getRanking(ranking.lastRanking) }}</span>
+            <span class="error" v-else>Below top 50</span>
+          </td>
           <td>{{ getTimeAgo(ranking.lastConfirmed) }} ago</td>
           <td><router-link :to="'/details/' + ranking.downloadId">Check past {{ranking.rankingsTotal}} rankings</router-link></td>
         </tr>
@@ -48,13 +51,24 @@ export default {
     getTimeAgo(date) {
       return humanizeDuration(new Date() - date, { round: true, largest: 1 })
     },
-    getRanking(rank) {
-      if (rank) {
-        return `${ordinal(rank)} place`
-      }
-
-      return 'Pending..'
-    },
+    getRanking(rank) { return `${ordinal(rank)} place` },
+    rankClass(rank) {
+      return rank <= 3 ? 'good' : 'warn';
+    }
   }
 }
 </script>
+
+<style scoped>
+.error {
+  color: #F03346
+}
+
+.warn {
+  color: #F09E33;
+}
+
+.good {
+  color: #33F09E;
+}
+</style>
