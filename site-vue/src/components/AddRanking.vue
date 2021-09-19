@@ -1,18 +1,16 @@
 <template>
   <div>
-    <h3>Add more rankings</h3>
-    <p>
-      You can add more keywords or sites as well:
-    </p>
+    <h3>{{ $t('title') }}</h3>
+    <p>{{ $t('subtitle') }}</p>
     <form id="add-ranking-form">
       <div class="row">
         <div class="six columns">
-            <label for="keyword">Keyword</label>
-            <input :disabled="isAdding" placeholder="your keyword" v-model="keyword" class="remember-input u-full-width" type="text" id="keyword">
+            <label for="keyword">{{ $t('keyword') }}</label>
+            <input :disabled="isAdding" :placeholder="$t('keyword-placeholder')" v-model="keyword" class="remember-input u-full-width" type="text" id="keyword">
 
         </div>
         <div class="six columns">
-          <label for="site">Site</label>
+          <label for="site">{{ $t('site') }}</label>
           <input :disabled="isAdding" placeholder="site.xyz" v-model="site" class="remember-input u-full-width" type="text" id="site">
         </div>
       </div>
@@ -21,10 +19,10 @@
       </p>
       <PromiseBuilder :promise="addingPromise" v-if="addingPromise">
         <template #fulfilled>
-          Congrats, new keyword was added!
+          {{ $t('result-added') }}
         </template>
         <template #rejected>
-          We're sorry, some error occurred. Please try again later.
+          {{ $t('result-error') }}
         </template>
       </PromiseBuilder>
     </form>
@@ -56,7 +54,7 @@ export default {
   },
   computed: {
     buttonText() {
-      return this.isAdding ? 'Saving..' : 'Add ranking'
+      return this.isAdding ? this.$t('button-saving') : this.$t('button-add')
     }
   },
   methods: {
@@ -69,3 +67,30 @@ export default {
   }
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "title": "Add more rankings",
+    "subtitle": "You can add more keywords or sites as well:",
+    "keyword": "Keyword",
+    "keyword-placeholder": "your keyword",
+    "site": "Site",
+    "button-saving": "Saving..",
+    "button-add": "Add ranking",
+    "result-added": "Congrats, new keyword was added!",
+    "result-error": "We're sorry, some error occurred. Please try again later."
+  },
+  "ja": {
+    "title": "ランキングを追加する",
+    "subtitle": "上記意外のキーワード・サイトを追跡追加できます:",
+    "keyword": "キーワード",
+    "keyword-placeholder": "あなたのキーワード",
+    "site": "サイト",
+    "button-saving": "保存中..",
+    "button-add": "ランキングする",
+    "result-added": "おめでとう！ キーワードを追加できました!",
+    "result-error": "申し訳ございません、エラーが発生しました。少し待ちして、試してください。"
+  }
+}
+</i18n>

@@ -2,10 +2,8 @@
   <div>
     <div class="container">
       <section class="header">
-        <h2 class="title">History</h2>
-        <p>
-            Welcome in! Here's your recent history and remaining credits.
-        </p>
+        <h2 class="title">{{ $t('title') }}</h2>
+        <p> {{ $t('subtitle')}} </p>
       </section>
 
       <RankingTable :rankings="rankings" :loading="loading" :loaded="loaded" />
@@ -99,5 +97,15 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<i18n>
+{
+  "en": {
+    "title": "Dashboard",
+    "subtitle": "Welcome in! Here's your recent history and remaining credits."
+  },
+  "ja": {
+    "title": "ダッシュボード",
+    "subtitle": "ようこそう！このページにはランキング追跡と残っているランキングポイントが見えています。"
+  }
+}
+</i18n>

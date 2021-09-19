@@ -1,14 +1,14 @@
 <template>
   <div class="page-section">
-    <h3>Rank history</h3>
+    <h3>{{ $t('title') }}</h3>
     <table v-if="loaded" style="width: 100%">
       <thead>
         <tr>
-          <th>Site</th>
-          <th>Keyword</th>
-          <th>Last ranking</th>
-          <th>Last confirmed</th>
-          <th>Ranking statistics</th>
+          <th>{{ $t('header.site') }}</th>
+          <th>{{ $t('header.keyword') }}</th>
+          <th>{{ $t('header.lastRanking') }}</th>
+          <th>{{ $t('header.lastConfirmed') }}</th>
+          <th>{{ $t('header.rankingStatistics') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -58,6 +58,31 @@ export default {
   }
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "title": "Rank history",
+    "header": {
+      "site": "Site",
+      "keyword": "Keyword",
+      "lastRanking": "Last ranking",
+      "lastConfirmed": "Last confirmed",
+      "rankingStatistics": "Ranking statistics",
+    }
+  },
+  "ja": {
+    "title": "ランキング履歴",
+    "header": {
+      "site": "サイト",
+      "keyword": "キーワード",
+      "lastRanking": "最新ランク",
+      "lastConfirmed": "最新確認日時",
+      "rankingStatistics": "詳細",
+    }
+  },
+}
+</i18n>
 
 <style scoped>
 .error {

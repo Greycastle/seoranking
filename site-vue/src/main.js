@@ -29,7 +29,11 @@ import { Skeletor } from 'vue-skeletor';
 import Footer from '@/components/Footer'
 import PromiseBuilder from '@/components/PromiseBuilder'
 
+import i18n from './i18n'
+
+
 const app = createApp(DefaultLayout)
+app.use(i18n)
 app.use(router)
 app.use(auth, { firebaseApp })
 app.component(Skeletor.name, Skeletor);
