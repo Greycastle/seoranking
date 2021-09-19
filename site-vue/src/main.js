@@ -2,6 +2,7 @@
 import './assets/normalize.css'
 import './assets/skeleton.css'
 import './assets/site.css'
+import './assets/transitions.css'
 
 // Firebase
 import { initializeApp } from 'firebase/app';

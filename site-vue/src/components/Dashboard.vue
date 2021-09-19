@@ -24,7 +24,7 @@
             <tr v-for="ranking in rankings" :key="ranking.keyword">
               <td>{{ ranking.site }}</td>
               <td>{{ ranking.keyword }}</td>
-              <td>{{ toOrdinal(ranking.lastRanking) }} place</td>
+              <td>{{ getRanking(ranking.lastRanking) }}</td>
               <td>{{ getTimeAgo(ranking.lastConfirmed) }} ago</td>
               <td><a href="...">Download past {{ranking.rankingsTotal}} rankings</a></td>
             </tr>
@@ -34,26 +34,7 @@
       </div>
 
       <div class="page-section">
-        <h3>Add more rankings</h3>
-        <p>
-          You can add more keywords or sites as well:
-        </p>
-        <form id="add-ranking-form">
-          <div class="row">
-            <div class="six columns">
-                <label for="keyword">Keyword</label>
-                <input placeholder="yummy greens" class="remember-input u-full-width" type="text" id="keyword">
-
-            </div>
-            <div class="six columns">
-              <label for="site">Site</label>
-              <input placeholder="greens.zed" class="remember-input u-full-width" type="text" id="site">
-            </div>
-          </div>
-          <p>
-            <button id="add-ranking" class="button-primary" type="button">Add ranking</button>
-          </p>
-        </form>
+        <AddRanking @added="onAdded" :defaultSite="defaultSite" />
       </div>
 
       <div class="page-section">
@@ -85,13 +66,18 @@
 import { pluralize, ordinal } from 'humanize-plus'
 import humanizeDuration from 'humanize-duration'
 import getRankingData from '@/services/rankingData'
+import AddRanking from '@/components/AddRanking'
 
 export default {
+  components: {
+    AddRanking
+  },
   data() {
     return {
       state: 'loading',
       rankings: [],
-      account: null
+      account: null,
+      defaultSite: ''
     }
   },
   methods: {
@@ -104,19 +90,35 @@ export default {
     },
     getTimeAgo(date) {
       return humanizeDuration(new Date() - date, { round: true, largest: 1 })
+    },
+    getRanking(rank) {
+      if (rank) {
+        return `${this.toOrdinal(rank)} place`
+      }
+
+      return 'Pending..'
+    },
+    async load() {
+      this.state = 'loading'
+      try {
+        const data = await getRankingData()
+        this.rankings = data.rankings
+        this.account = data.account
+        if (this.rankings.length > 0) {
+          this.defaultSite = this.rankings[0].site
+        }
+        this.state = 'loaded'
+      } catch (err) {
+        this.state = 'error'
+        this.message = 'Something went wrong'
+      }
+    },
+    onAdded() {
+      this.load()
     }
   },
   async created() {
-    this.state = 'loading'
-    try {
-      const data = await getRankingData()
-      this.rankings = data.rankings
-      this.account = data.account
-      this.state = 'loaded'
-    } catch (err) {
-      this.state = 'error'
-      this.message = 'Something went wrong'
-    }
+    this.load()
   },
   computed: {
     schedule() {
