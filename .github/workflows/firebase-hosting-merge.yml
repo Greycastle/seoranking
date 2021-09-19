@@ -15,11 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd site-vue
       - run: npm install
+        working-directory: site-vue
       - run: npm run lint
+        working-directory: site-vue
       - run: npm run build
-      - run: ../
+        working-directory: site-vue
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
