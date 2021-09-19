@@ -6,6 +6,7 @@ import Top from '@/components/Top';
 import Login from '@/components/Login';
 import LoginByUrl from '@/components/LoginByUrl';
 import NotFound from '@/components/NotFound';
+import SignedOut from '@/components/SignedOut';
 
 // Secure routes
 import Dashboard from '@/components/Dashboard'
@@ -32,6 +33,10 @@ const router = createRouter({
         {
           path: 'dashboard',
           component: Dashboard
+        },
+        {
+          path: 'signed-out',
+          component: SignedOut
         }
       ]
     },
