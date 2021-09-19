@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <section class="header">
-      <h2 class="title">Rank details</h2>
-      <router-link to="/dashboard">To dashboard</router-link>
+      <h2 class="title">{{ $t('title') }}</h2>
+      <router-link to="/dashboard">{{ $t('dashboard-link') }}</router-link>
     </section>
 
     <PromiseBuilder :promise="loadPromise" v-if="loadPromise">
@@ -19,17 +19,17 @@
       <template #fulfilled>
         <div class="page-section">
           <h3>Ranking</h3>
-          <p>Tracking <b>{{ site }}</b> for keyword <b>{{ keyword }}</b></p>
-          <button @click="share">{{ copied ? "Copied to clipboard!" : "Share this page" }}</button>
+          <p v-html="$t('overview.subtitle', { site, keyword })"></p>
+          <button @click="share">{{ copied ? $t('overview.button-copied') : $t('overview.button-share') }}</button>
         </div>
         <div class="page-section">
-          <h3>Ranking statistics</h3>
+          <h3>{{ $t('stats.title') }}</h3>
           <RankChart :dataPoints="statistics" v-if="hasRanks" />
-          <p v-else>This keyword has not ranked since it started being tracked.</p>
+          <p v-else>{{ $t('stats.none') }}</p>
         </div>
 
         <div class="page-section">
-          <h3>Current competitor placement</h3>
+          <h3>{{ $t('competition.title') }}</h3>
           <div>
             <div :class="competitor.matchClass" v-for="(competitor, index) in competitors" :key="index" class="competitor-card">
               <div class="rank">{{ index + 1 }}</div>
@@ -115,6 +115,45 @@ export default {
   },
 }
 </script>
+
+<i18n>
+{
+  "en": {
+    "title": "Rank details",
+    "dashboard-link": "Back to dashboard",
+    "overview": {
+      "title": "Ranking",
+      "subtitle": "Tracking <b>{site}</b> for <b>{keyword}</b>",
+      "button-share": "Share this page",
+      "button-copied": "Copied to clipboard!"
+    },
+    "stats": {
+      "title": "Ranking statistics",
+      "none": "This keyword has not ranked since it started being tracked."
+    },
+    "competition": {
+      "title": "CURRENT COMPETITOR PLACEMENT"
+    }
+  },
+  "ja": {
+    "title": "ランキング詳細",
+    "dashboard-link": "ダッシュボードへ戻る",
+    "overview": {
+      "title": "ランキング",
+      "subtitle": "「<b>{site}</b>」サイトを「<b>{keyword}</b>」キーワードでランキングしています",
+      "button-share": "このページを共有する",
+      "button-copied": "コピーされました!"
+    },
+    "stats": {
+      "title": "ランキングスタティスティックス",
+      "none": "サイトはこのキーワードでまだ検索に上の50件の中には表示されていません"
+    },
+    "competition": {
+      "title": "現在の競合状態"
+    }
+  },
+}
+</i18n>
 
 <style scoped>
 
