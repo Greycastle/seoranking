@@ -20,19 +20,31 @@ const router = createRouter({
       children: [
         {
           path: '',
-          component: Top
+          component: Top,
+          meta: {
+            redirectIfSignedIn: true
+          }
         },
         {
           path: 'login',
-          component: Login
+          component: Login,
+          meta: {
+            redirectIfSignedIn: true
+          }
         },
         {
           path: 'login-by-url',
-          component: LoginByUrl
+          component: LoginByUrl,
+          meta: {
+            redirectIfSignedIn: true
+          }
         },
         {
           path: 'dashboard',
-          component: Dashboard
+          component: Dashboard,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: 'signed-out',
@@ -46,5 +58,33 @@ const router = createRouter({
     }
   ],
 });
+
+// Add security
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(getAuth(), user => {
+          unsubscribe();
+          resolve(user);
+      }, reject);
+  })
+};
+
+router.beforeEach(async (to, _, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const redirectIfSignedIn = to.matched.some(record => record.meta.redirectIfSignedIn);
+  if (requiresAuth || redirectIfSignedIn){
+    const user = await getCurrentUser();
+    if (requiresAuth && !user) {
+      next('login');
+    } else if(redirectIfSignedIn && user) {
+      next('dashboard')
+    } else {
+      next()
+    }
+  }else{
+    next();
+  }
+})
 
 export default router

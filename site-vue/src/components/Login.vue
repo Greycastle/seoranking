@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       state: 'input',
+      email: window.localStorage.getItem('email')
     }
   },
   methods: {
