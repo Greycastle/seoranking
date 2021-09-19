@@ -14,50 +14,45 @@
           We're ready to log you in but first we need to confirm your email:
         </p>
         <input v-model="email" type="email" />
-        <a @click="login" class="button">Login</a>
+        <a @click="login()" class="button">Login</a>
       </div>
-      <p v-if="state == 'error'">
-        That didn't work out... Try again
-      </p>
+      <div v-if="state == 'error'">
+        That didn't work out... Try sending a new link:
+        <router-link to="login">Login</router-link>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-import { getAuth, setPersistence, browserLocalPersistence, isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 
 export default {
   data() {
     return {
       state: 'checking',
+      email: ''
     }
   },
   methods: {
     async login() {
       try {
-        await setPersistence(this.auth, browserLocalPersistence);
-        await signInWithEmailLink(this.auth, this.email, window.location.href)
+        console.log(`Trying login with email = ${this.email}`)
+        await this.$auth.trySignInEmail(this.email)
         this.$router.push('/dashboard')
-      } catch(err) {
-        console.error(err)
-        this.state = 'error'
+      } catch (err) {
+        if (err.message == 'Wrong url') {
+          this.state = 'no-url'
+        } else if(err.message == 'No email') {
+          this.state = 'enter-email'
+        } else {
+          console.error(err)
+          this.state = 'error'
+        }
       }
     }
   },
-  created() {
-    this.auth = getAuth();
-
-    if (!isSignInWithEmailLink(this.auth, window.location.href)) {
-      this.state = 'no-url'
-      return
-    }
-
-    this.email = window.localStorage.getItem('email')
-    if (this.email) {
-      this.login()
-    } else {
-      this.state = 'enter-email'
-    }
+  async created() {
+    await this.login()
   },
 }
 </script>

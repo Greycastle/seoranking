@@ -14,13 +14,15 @@ const firebaseConfig = {
   appId: "1:950631750849:web:74515513e16bc068560840",
   measurementId: "G-WSP006WNBZ"
 };
-initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
 // Vue setup
 import { createApp } from 'vue'
+import auth from './auth';
 import router from './router';
 import DefaultLayout from './layouts/DefaultLayout'
 
 const app = createApp(DefaultLayout)
 app.use(router)
+app.use(auth, { firebaseApp })
 app.mount('#app')
