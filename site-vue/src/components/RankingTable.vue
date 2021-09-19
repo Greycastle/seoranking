@@ -17,7 +17,7 @@
           <td>{{ ranking.keyword }}</td>
           <td>{{ getRanking(ranking.lastRanking) }}</td>
           <td>{{ getTimeAgo(ranking.lastConfirmed) }} ago</td>
-          <td><a href="...">Download past {{ranking.rankingsTotal}} rankings</a></td>
+          <td><router-link :to="'/details/' + ranking.downloadId">Check past {{ranking.rankingsTotal}} rankings</router-link></td>
         </tr>
       </tbody>
     </table>

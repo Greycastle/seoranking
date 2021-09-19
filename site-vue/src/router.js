@@ -9,6 +9,7 @@ import NotFound from '@/components/NotFound';
 import SignedOut from '@/components/SignedOut';
 import About from '@/components/About';
 import Pricing from '@/components/Pricing';
+import RankDetails from '@/components/RankDetails';
 
 // Secure routes
 import Dashboard from '@/components/Dashboard'
@@ -60,6 +61,10 @@ const router = createRouter({
         {
           path: 'pricing',
           component: Pricing
+        },
+        {
+          path: 'details/:id',
+          component: RankDetails
         }
       ]
     },
