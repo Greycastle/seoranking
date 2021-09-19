@@ -70,6 +70,10 @@ def read_detailed_stats(id: str):
   stats = map(lambda x: { 'date': x.to_dict()['timestamp'].isoformat(), 'rank': x.to_dict()['position'] } ,stream)
 
   return {
+    "ranking": {
+      "keyword": keyword,
+      "site": site
+    },
     "competitors": list(first_entry.to_dict()['results']),
     "stats": list(stats)
   }
