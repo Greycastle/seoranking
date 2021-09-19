@@ -6,7 +6,7 @@ name: Deploy to Firebase Hosting on merge
   push:
     paths:
       - .github/**
-      - site/**
+      - site-vue/**
       - '*.*'
     branches:
       - main
@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: cd site-vue
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+      - run: ../
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
