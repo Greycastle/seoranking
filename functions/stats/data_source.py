@@ -19,7 +19,7 @@ def read_stats(user_name):
     items_rankings = list(find_rankings(item['keyword'], item['site'], rankings))
     items_rankings.sort(key=(lambda x: x['timestamp']))
     item['rankings'] = len(items_rankings)
-    item['downloadId'] = base64.b64encode(json.dumps({'keyword': item['keyword'], 'site': item['site'], 'user': user_name}).encode()).decode()
+    item['downloadId'] = encode_id(item['keyword'], item['site'], user_name)
     if (len(items_rankings) > 0):
       recent = items_rankings[-1]
       item['lastRanking'] = recent['position']
@@ -34,6 +34,13 @@ def read_stats(user_name):
     "items": items
   }
 
+def encode_id(keyword: str, site: str, user: str) -> str:
+  return base64.b64encode(json.dumps({'keyword': keyword, 'site': site, 'user': user}).encode()).decode()
+
+def decode_id(id: str) -> list:
+  data = json.loads(base64.b64decode(id.encode()).decode())
+  return [ data['keyword'], data['site'], data['user'] ]
+
 def find_rankings(keyword, site, all_rankings):
   for ranking in all_rankings:
     if keyword != ranking['keyword'] or site != ranking['rank_site']:
@@ -41,5 +48,34 @@ def find_rankings(keyword, site, all_rankings):
 
     yield ranking
 
+
+def read_detailed_stats(id: str):
+  keyword, site, user = decode_id(id)
+
+  db = firestore.client()
+  stream = db.collection('ranking')\
+    .where('user', '==', user)\
+    .where('keyword', '==', keyword)\
+    .where('rank_site', '==', site)\
+    .order_by('timestamp', 'DESCENDING')\
+    .limit(100)\
+    .stream()
+
+
+  first_entry = next(stream, None)
+  if first_entry is None:
+    print(f"No entry for keyword '{keyword}', site '{site}' and user '{user}'")
+    raise NoSuchEntry()
+
+  stats = map(lambda x: { 'date': x.to_dict()['timestamp'].isoformat(), 'rank': x.to_dict()['position'] } ,stream)
+
+  return {
+    "competitors": list(first_entry.to_dict()['results']),
+    "stats": list(stats)
+  }
+
 class NoSuchUser(Exception):
+  pass
+
+class NoSuchEntry(Exception):
   pass

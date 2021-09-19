@@ -9,6 +9,7 @@ PROJECT=seoranking-324303
 
 echo "Deploying.."
 gcloud functions deploy get_stats --entry-point get_stats_http --project $PROJECT --runtime python37 --trigger-http
+gcloud functions deploy get_detailed_stats --entry-point get_detailed_stats_http --project $PROJECT --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy register --entry-point register_http --project $PROJECT --runtime python37 --trigger-http --allow-unauthenticated
 gcloud functions deploy rank --entry-point rank_message --project $PROJECT --runtime python37 --trigger-topic rank
 gcloud functions deploy process_ranking --entry-point process_ranking_message --project $PROJECT --runtime python37 --trigger-topic process-ranking

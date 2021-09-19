@@ -1,6 +1,5 @@
-
-from common.http import bad_request, not_found, enable_cors, require_auth
-from stats.data_source import read_stats, NoSuchUser
+from common.http import not_found, enable_cors, require_auth
+from stats.data_source import read_stats, NoSuchUser, read_detailed_stats, NoSuchEntry
 from common.firebase import init_firebase
 import logging
 
@@ -15,3 +14,11 @@ def get_stats(request):
     return read_stats(request.user['email'])
   except(NoSuchUser):
     not_found('No such user found')
+
+@enable_cors
+def get_detailed_stats(request):
+  id = request.args.get('id')
+  try:
+    return read_detailed_stats(id)
+  except(NoSuchEntry):
+    not_found('No such entry found')
