@@ -8,6 +8,8 @@ import {
   sendSignInLinkToEmail
  } from 'firebase/auth';
 
+ import axios from 'axios'
+
 class Auth {
   constructor(firebaseApp, router) {
     this.auth = initializeAuth(firebaseApp, {
@@ -29,6 +31,14 @@ class Auth {
         this.loaded = true
         reject(error)
       })
+    })
+
+    axios.interceptors.request.use(async (config) => {
+      if (this.user) {
+        const idToken = await this.user.getIdToken()
+        config.headers.authorization = `Bearer ${idToken}`
+      }
+      return config
     })
 
     router.beforeEach(async (to, _, next) => {
