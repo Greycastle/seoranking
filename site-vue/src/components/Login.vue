@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     async login() {
-      await this.$auth.sendEmailLink(this.email)
+      await this.$auth.sendEmailLink(this.email, this.$i18n.locale)
       this.state = 'sent'
     },
     retry() {

@@ -56,7 +56,8 @@ class Auth {
     })
   }
 
-  async sendEmailLink(email) {
+  async sendEmailLink(email, locale = 'en') {
+    this.auth.languageCode = locale
     let host = `${window.location.protocol}//${window.location.hostname}`
       if (host.endsWith('localhost')) host = `${host}:${window.location.port}`
       const actionCodeSettings = {
@@ -77,7 +78,8 @@ class Auth {
       throw Error('No email')
     }
     console.log(`Attempting login by email: ${email}`)
-    this.user = await signInWithEmailLink(this.auth, email, window.location.href)
+    const result = await signInWithEmailLink(this.auth, email, window.location.href)
+    this.user = result.user
     this.authState = Promise.resolve(this.user)
   }
 
