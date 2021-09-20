@@ -12,7 +12,7 @@
         <h3>{{ $t('registered.title') }}</h3>
         <p>{{ $t('registered.subtitle') }}</p>
         <p>
-          <router-link class="button button-primary" to="'/login">{{ $t('start.button-check') }}</router-link>
+          <router-link class="button button-primary" to="'/login">{{ $t('registered.button-check') }}</router-link>
         </p>
       </div>
     </div>
