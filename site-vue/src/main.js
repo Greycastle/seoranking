@@ -2,7 +2,7 @@
 import './assets/normalize.css'
 import './assets/skeleton.css'
 import './assets/site.css'
-import './assets/transitions.css'
+import 'vue-skeletor/dist/vue-skeletor.css';
 
 // Firebase
 import { initializeApp } from 'firebase/app';
@@ -24,7 +24,6 @@ import router from './router';
 import DefaultLayout from './layouts/DefaultLayout'
 
 // Global components
-import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
 import Footer from '@/components/Footer'
 import PromiseBuilder from '@/components/PromiseBuilder'
