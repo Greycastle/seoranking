@@ -23,3 +23,13 @@ button:disabled {
 .hide-default {
   display: none;
 }
+
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #222;
+}
