@@ -1,31 +1,27 @@
 <template>
   <div class="container">
     <section class="header">
-      <h2 class="title">Login</h2>
-      <p>
-          Login to check your ranking history.
-      </p>
+      <h2 class="title">{{ $t('title') }}</h2>
+      <p>{{ $t('subtitle') }}</p>
     </section>
 
     <div class="page-section">
-      <h3>Login</h3>
+      <h3>{{ $t('title') }}</h3>
       <div v-if="state == 'input'">
         <div class="row">
             <p>
-                <label for="email">Email</label>
-                <input v-model="email" placeholder="your@email.com" class="remember-input u-full-width" type="email" id="email">
+                <label for="email">{{ $t('email') }}</label>
+                <input v-model="email" placeholder="user@email.com" class="remember-input u-full-width" type="email" id="email">
             </p>
         </div>
         <p>
-          <button @click="login" class="button-primary">Send login code</button>
+          <button @click="login" class="button-primary">{{ $t('button-send') }}</button>
         </p>
       </div>
       <div v-if="state == 'sent'">
+        <p>{{ $t('message-sent') }}</p>
         <p>
-          A code has been sent to your email. Please open the link provided inside to continue.
-        </p>
-        <p>
-          <button @click="retry" class="button-primary">Retry</button>
+          <button @click="retry" class="button-primary">{{ $t('button-retry') }}</button>
         </p>
       </div>
     </div>
@@ -55,5 +51,23 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<i18n>
+{
+  "en": {
+    "title": "Login",
+    "subtitle": "Login to check your ranking history.",
+    "email": "Email",
+    "button-send": "Send login code",
+    "message-sent": "A code has been sent to your email. Please open the link provided inside to continue.",
+    "button-retry": "Retry"
+  },
+  "ja": {
+    "title": "ログイン",
+    "subtitle": "ランキング履歴を見るために、ログインしてください。",
+    "email": "メールアドレス",
+    "button-send": "ログインコード送る",
+    "message-sent": "ログインリンクは上記のメールに送りました。進むためにメールのリンク開いてください。",
+    "button-retry": "再試行"
+  }
+}
+</i18n>
