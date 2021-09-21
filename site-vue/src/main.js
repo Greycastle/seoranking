@@ -2,7 +2,7 @@
 import './assets/normalize.css'
 import './assets/skeleton.css'
 import './assets/site.css'
-import 'vue-skeletor/dist/vue-skeletor.css';
+import './assets/vue-skeletor.css';
 
 // Firebase
 import { initializeApp } from 'firebase/app';
