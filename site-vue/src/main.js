@@ -2,6 +2,9 @@
 import './assets/normalize.css'
 import './assets/skeleton.css'
 import './assets/site.css'
+
+// fix to include the file, really I should load it from node_modules
+// but there's something up with the css-loader in webpack that just skips it
 import './assets/vue-skeletor.css';
 
 // Firebase
