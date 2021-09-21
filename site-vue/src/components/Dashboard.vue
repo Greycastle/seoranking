@@ -4,6 +4,8 @@
       <section class="header">
         <h2 class="title">{{ $t('title') }}</h2>
         <p> {{ $t('subtitle')}} </p>
+
+        <button @click="share">{{ $t(shared ? 'share-button-done' : 'share-button') }}</button>
       </section>
 
       <RankingTable :rankings="rankings" :loading="loading" :loaded="loaded" />
@@ -34,6 +36,7 @@
 
 <script>
 import { pluralize } from 'humanize-plus'
+import useClipboard from 'vue-clipboard3'
 
 import getRankingData from '@/services/rankingData'
 import AddRanking from '@/components/AddRanking'
@@ -49,10 +52,19 @@ export default {
       state: 'loading',
       rankings: [],
       account: null,
-      defaultSite: ''
+      defaultSite: '',
+      shared: false,
     }
   },
   methods: {
+    async share() {
+      this.shared = true
+      const { toClipboard} = useClipboard()
+      const id = btoa(this.$auth.user.email)
+      const url = window.location.origin + "/shared/" + id
+      await toClipboard(url)
+      setTimeout(() => this.shared = false, 2500)
+    },
     async logout() {
       await this.$auth.logout()
       this.$router.push('signed-out')
@@ -101,11 +113,15 @@ export default {
 {
   "en": {
     "title": "Dashboard",
-    "subtitle": "Welcome in! Here's your recent history and remaining credits."
+    "subtitle": "Welcome in! Here's your recent history and remaining credits.",
+    "share-button": "Share this page",
+    "share-button-done": "URL copied!"
   },
   "ja": {
     "title": "ダッシュボード",
-    "subtitle": "ようこそう！このページにはランキング追跡と残っているランキングポイントが見えています。"
+    "subtitle": "ようこそう！このページにはランキング追跡と残っているランキングポイントが見えています。",
+    "share-button": "このページを共有する",
+    "share-button-done": "ＵＲＬコピーした!"
   }
 }
 </i18n>
