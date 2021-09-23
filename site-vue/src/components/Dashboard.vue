@@ -65,10 +65,6 @@ export default {
       await toClipboard(url)
       setTimeout(() => this.shared = false, 2500)
     },
-    async logout() {
-      await this.$auth.logout()
-      this.$router.push('signed-out')
-    },
     async load() {
       this.state = 'loading'
       try {
