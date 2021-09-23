@@ -29,3 +29,7 @@ def test_can_get_details():
   (response, status, _) = get_detailed_stats(request)
   assert status == 200
   assert len(response) > 0
+
+  stats_sample = response['stats'][0]
+  assert type(stats_sample['date']) == str
+  assert type(stats_sample['rank']) == int

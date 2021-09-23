@@ -66,15 +66,7 @@ export default {
       keyword: null,
       site: null,
       copied: false,
-      statistics: [
-        { date: new Date(2021, 9, 14), rank: 1 },
-        { date: new Date(2021, 9, 15), rank: 2 },
-        { date: new Date(2021, 9, 16), rank: 1 },
-        { date: new Date(2021, 9, 17), rank: 5 },
-        { date: new Date(2021, 9, 18), rank: 3 },
-        { date: new Date(2021, 9, 19), rank: 15 },
-        { date: new Date(2021, 9, 20), rank: 3 },
-      ]
+      statistics: []
     }
   },
   methods: {

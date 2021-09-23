@@ -73,7 +73,7 @@ def read_detailed_stats(id: str):
       "site": site
     },
     "competitors": list(entries[0]['results']),
-    "stats": entries
+    "stats": stats
   }
 
 class NoSuchUser(Exception):
