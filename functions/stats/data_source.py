@@ -61,22 +61,19 @@ def read_detailed_stats(id: str):
     .limit(100)\
     .stream()
 
-
-  first_entry = next(stream, None)
-  if first_entry is None:
-    print(f"No entry for keyword '{keyword}', site '{site}' and user '{user}'")
+  entries = list(map(lambda x: x.to_dict(), stream))
+  stats = list(map(lambda x: { 'date': x['timestamp'].isoformat(), 'rank': x['position'] }, entries))
+  if len(stats) == 0:
+    print(f"No entries for keyword '{keyword}', site '{site}' and user '{user}'")
     raise NoSuchEntry()
-
-  stats = list(map(lambda x: { 'date': x.to_dict()['timestamp'].isoformat(), 'rank': x.to_dict()['position'] } ,stream))
-  stats.insert(0, first_entry) # put it back in
 
   return {
     "ranking": {
       "keyword": keyword,
       "site": site
     },
-    "competitors": list(first_entry.to_dict()['results']),
-    "stats": stats
+    "competitors": list(entries[0]['results']),
+    "stats": entries
   }
 
 class NoSuchUser(Exception):

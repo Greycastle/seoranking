@@ -21,7 +21,6 @@ def test_get_public_stats():
   assert list(response.keys()) == [ 'items' ]
   assert len(response['items']) > 0
 
-
 def test_can_get_details():
   args = {
     'id': encode_id('flutter greycastle', 'greycastle.se', 'test@greycastle.se')

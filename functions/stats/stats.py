@@ -32,6 +32,9 @@ def get_public_stats(request):
 @enable_cors
 def get_detailed_stats(request):
   id = request.args.get('id')
+  if id is None:
+    bad_request('No id given')
+
   try:
     return read_detailed_stats(id)
   except(NoSuchEntry):
