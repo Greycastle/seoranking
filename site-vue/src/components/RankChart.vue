@@ -3,6 +3,7 @@
 </template>
 <script>
 import { Chart, registerables } from 'chart.js'
+import moment from 'moment'
 import 'chartjs-adapter-moment';
 
 export default {
@@ -19,38 +20,22 @@ export default {
     let ctx = this.$refs.chartCanvas.getContext("2d")
 
     const data = {
-      labels: this.dataPoints.map((point) => point.date),
+      labels: this.dataPoints.map((point) => moment(point.date).format('LL')),
       datasets: [
         {
           label: 'Ranking',
           data: this.dataPoints.map((point) => point.rank),
           borderColor: '#33F09E',
+          backgroundColor: '#33F09E',
         }
       ]
     }
 
     new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data,
       options: {
-        response: true,
-        scales: {
-          x: {
-            type: 'time',
-            title: {
-              display: true,
-              text: 'Date'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Rank'
-            },
-            suggestedMax: 1,
-            suggestedMin: 50
-          }
-        }
+        response: true
       }
     })
   }

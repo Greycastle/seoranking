@@ -98,7 +98,7 @@ export default {
         date: Date.parse(stat.date),
         rank: stat.rank
       }
-    }).filter((item) => item.rank !== null)
+    }).filter((item) => item.rank !== null).reverse()
 
     const siteRegex = new RegExp('(http|https)://(.+\\.)?' + 'greycastle.se')
     for (let competitor of this.competitors) {
