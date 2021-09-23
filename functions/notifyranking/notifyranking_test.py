@@ -1,5 +1,6 @@
 from notifyranking.notifyranking import notify_ranking, build_email
 from common.testing import get_event_from_dict
+from notifyranking.storage import get_last_ranking
 from datetime import datetime
 import mock
 
@@ -15,7 +16,8 @@ def test_notifies_on_new_ranking_if_no_previous():
 
   with mock.patch('notifyranking.notifyranking.publish') as mock_publish:
     notify_ranking(event, mock.Mock())
-    content = build_email(5, 'greycastle.se', 'greycastle')
+    last_rank = get_last_ranking('test@greycastle.se', 'greycastle', 'greycastle.se')
+    content = build_email(last_rank, 5, 'greycastle.se', 'greycastle')
     mock_publish.assert_called_once_with('send-mail', {
       'to': 'test@greycastle.se',
       'from': 'david@greycastle.se',
