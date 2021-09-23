@@ -9,16 +9,12 @@
 </template>
 
 <script>
+import { saveClientLocale } from '../i18n'
+
 export default {
   data() {
     return {
       locales: this.$i18n.availableLocales
-    }
-  },
-  mounted() {
-    const prevLocale = localStorage.getItem('user-locale')
-    if (prevLocale) {
-      this.$i18n.locale = prevLocale
     }
   },
   methods: {
@@ -26,8 +22,8 @@ export default {
       return locale == this.$i18n.locale
     },
     setLocale(locale) {
+      saveClientLocale(locale)
       this.$i18n.locale = locale
-      localStorage.setItem('user-locale', locale)
     }
   }
 }

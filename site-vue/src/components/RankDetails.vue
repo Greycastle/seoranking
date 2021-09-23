@@ -33,10 +33,10 @@
           <div>
             <div :class="competitor.matchClass" v-for="(competitor, index) in competitors" :key="index" class="competitor-card">
               <div class="rank">{{ index + 1 }}</div>
-              <div class="competitor">
-                <span class="title">{{ competitor.title }}</span>
-                <span class="url">{{ competitor.link }}</span>
-              </div>
+                <div class="competitor">
+                  <span class="title">{{ competitor.title }}</span>
+                  <a class="url" :href="competitor.link" target="_blank"><span>{{ competitor.link }}</span></a>
+                </div>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ export default {
 
 .competitor-card .rank {
   border-radius: 8px 0 0 8px;
-  width: 48px;
+  min-width: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,6 +182,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 4px 8px;
+  min-width: 0;
 }
 
 .competitor-card .title {
@@ -192,6 +193,8 @@ export default {
   font-size: 0.8em;
   opacity: 0.6;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .competitor-card.match {
