@@ -67,7 +67,8 @@ def read_detailed_stats(id: str):
     print(f"No entry for keyword '{keyword}', site '{site}' and user '{user}'")
     raise NoSuchEntry()
 
-  stats = map(lambda x: { 'date': x.to_dict()['timestamp'].isoformat(), 'rank': x.to_dict()['position'] } ,stream)
+  stats = list(map(lambda x: { 'date': x.to_dict()['timestamp'].isoformat(), 'rank': x.to_dict()['position'] } ,stream))
+  stats.insert(0, first_entry) # put it back in
 
   return {
     "ranking": {
@@ -75,7 +76,7 @@ def read_detailed_stats(id: str):
       "site": site
     },
     "competitors": list(first_entry.to_dict()['results']),
-    "stats": list(stats)
+    "stats": stats
   }
 
 class NoSuchUser(Exception):
