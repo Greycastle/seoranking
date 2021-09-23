@@ -4,7 +4,6 @@
       <section class="header">
         <h2 class="title">{{ $t('title') }}</h2>
         <p> {{ $t('subtitle')}} </p>
-
         <button @click="share">{{ $t(shared ? 'share-button-done' : 'share-button') }}</button>
       </section>
 
@@ -69,14 +68,14 @@ export default {
 <i18n>
 {
   "en": {
-    "title": "Dashboard",
-    "subtitle": "Welcome in! Here's your recent history and remaining credits.",
+    "title": "Rankings",
+    "subtitle": "Below is a list of shared rankings",
     "share-button": "Share this page",
     "share-button-done": "URL copied!"
   },
   "ja": {
-    "title": "ダッシュボード",
-    "subtitle": "ようこそう！このページにはランキング追跡と残っているランキングポイントが見えています。",
+    "title": "ランキング",
+    "subtitle": "以下は共有されたランキングの一覧です。",
     "share-button": "このページを共有する",
     "share-button-done": "ＵＲＬコピーした!"
   }

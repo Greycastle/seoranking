@@ -3,6 +3,7 @@
     <section class="header">
       <h2 class="title">{{ $t('title') }}</h2>
       <router-link v-if="$auth.user" to="/dashboard">{{ $t('dashboard-link') }}</router-link>
+      <a v-else @click="$router.back()">{{ $t('back') }}</a>
     </section>
 
     <PromiseBuilder :promise="loadPromise" v-if="loadPromise">
@@ -120,6 +121,7 @@ export default {
 {
   "en": {
     "title": "Rank details",
+    "back": "Back",
     "dashboard-link": "Back to dashboard",
     "overview": {
       "title": "Ranking",
@@ -137,6 +139,7 @@ export default {
   },
   "ja": {
     "title": "ランキング詳細",
+    "back": "戻る",
     "dashboard-link": "ダッシュボードへ戻る",
     "overview": {
       "title": "ランキング",
