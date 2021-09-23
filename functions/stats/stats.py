@@ -16,6 +16,13 @@ def get_stats(request):
     not_found('No such user found')
 
 @enable_cors
+def get_public_stats(request):
+  try:
+    return read_stats(request.args.get['email'])
+  except(NoSuchUser):
+    not_found('No such user found')
+
+@enable_cors
 def get_detailed_stats(request):
   id = request.args.get('id')
   try:

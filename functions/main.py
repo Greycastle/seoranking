@@ -1,6 +1,6 @@
 from register.register import register
 from rank.rank import rank
-from stats.stats import get_stats, get_detailed_stats
+from stats.stats import get_stats, get_detailed_stats, get_public_stats
 from processranking.processranking import process_ranking
 from logresults.logresults import log_ranking_results
 from addranking.addranking import handle_add_ranking_event, handle_add_ranking_request
@@ -12,6 +12,9 @@ def register_http(request):
 
 def get_stats_http(request):
   return get_stats(request)
+
+def get_public_stats_http(request):
+  return get_public_stats(request)
 
 def get_detailed_stats_http(request):
   return get_detailed_stats(request)
