@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const mapResult = (result) => {
-  const rankings = result.items.map((item) => ({
+const mapRankingItems = (items) => {
+  return items.map((item) => ({
     downloadId: item.downloadId,
     keyword: item.keyword,
     site: item.site,
@@ -9,6 +9,10 @@ const mapResult = (result) => {
     rankingsTotal: item.rankings,
     lastConfirmed: Date.parse(item.lastConfirmed)
   }))
+}
+
+const mapResult = (result) => {
+  const rankings = mapRankingItems(result.items)
 
   const stats = result.stats;
   const account = {
@@ -34,4 +38,13 @@ const getRankingData = async () => {
   }
 }
 
-export default getRankingData;
+const getPublicRankings = async (id) => {
+  const url = 'https://us-central1-seoranking-324303.cloudfunctions.net/get_public_stats'
+  const response = await axios.get(`${url}?id=${id}`)
+  return mapRankingItems(response.data.items)
+}
+
+export {
+  getRankingData,
+  getPublicRankings
+};

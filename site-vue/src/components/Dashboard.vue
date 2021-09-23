@@ -38,7 +38,7 @@
 import { pluralize } from 'humanize-plus'
 import useClipboard from 'vue-clipboard3'
 
-import getRankingData from '@/services/rankingData'
+import { getRankingData } from '@/services/rankingData'
 import AddRanking from '@/components/AddRanking'
 import RankingTable from '@/components/RankingTable'
 

@@ -1,4 +1,10 @@
 import { createI18n } from 'vue-i18n/index'
+import moment from 'moment'
+
+const saveClientLocale = (locale) => {
+  moment.updateLocale(locale)
+  localStorage.setItem(localeSettingKey, locale)
+}
 
 // the actual translations are in each vue file
 const locales = {
@@ -15,15 +21,12 @@ if (!locales[clientLocale]) {
   clientLocale = fallbackLocale
 }
 
+saveClientLocale(clientLocale)
 const i18n = createI18n({
   locale: clientLocale,
   fallbackLocale,
   messages: locales
 })
-
-const saveClientLocale = (locale) => {
-  localStorage.setItem(localeSettingKey, locale)
-}
 
 export default i18n
 

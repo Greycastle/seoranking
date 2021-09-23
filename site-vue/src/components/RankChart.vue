@@ -1,5 +1,7 @@
 <template>
-  <canvas ref="chartCanvas"></canvas>
+  <div class="canvasContainer">
+    <canvas ref="chartCanvas"></canvas>
+  </div>
 </template>
 <script>
 import { Chart, registerables } from 'chart.js'
@@ -31,13 +33,21 @@ export default {
       ]
     }
 
+    // ctx.height = 300
     new Chart(ctx, {
       type: 'bar',
       data,
       options: {
-        response: true
+        response: true,
+        maintainAspectRatio: false,
       }
     })
   }
 }
 </script>
+
+<style scoped>
+.canvasContainer {
+  height: 300px;
+}
+</style>
