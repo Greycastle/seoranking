@@ -2,13 +2,13 @@
   <div class="container">
     <section class="header">
       <h2 class="title">{{ $t('title') }}</h2>
-      <router-link to="/dashboard">{{ $t('dashboard-link') }}</router-link>
+      <router-link v-if="$auth.user" to="/dashboard">{{ $t('dashboard-link') }}</router-link>
     </section>
 
     <PromiseBuilder :promise="loadPromise" v-if="loadPromise">
       <template #pending>
         <div class="page-section">
-          <p>Loading..</p>
+          <Skeletor height="120" />
         </div>
       </template>
       <template #rejected>
