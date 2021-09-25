@@ -81,3 +81,14 @@ cd functions
 Google has a [Programmable Search Engine](https://developers.google.com/custom-search/v1/introduction) API but it works as a custom engine for your own site, not as an API for the site in general.
 
 [SerpApi](https://serpapi.com/) is one service that scrapes Google and they take the blame for this. [Google hasn't taken any legal actions](https://dataforseo.com/blog/is-scraping-google-serps-legal) for companies scraping them but it is against their ToS.
+
+## Roadmap
+
+- Localize the email
+- Cache results for faster loading
+- Make colour coding less horrible
+- Add google login
+- Add link to google result page
+- Make share links better
+- Add share buttons for good results
+- Improve call to actions by splitting pages up
