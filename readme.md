@@ -92,3 +92,4 @@ Google has a [Programmable Search Engine](https://developers.google.com/custom-s
 - Make share links better
 - Add share buttons for good results
 - Improve call to actions by splitting pages up
+- Add slack integration
