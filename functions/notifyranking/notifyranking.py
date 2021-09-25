@@ -23,7 +23,13 @@ def notify_ranking(event, context):
 
 def build_rank_change(prev_rank, new_rank):
   if prev_rank < 0:
-    return f"Your site ranking has been confirmed, you are ranking at position {prev_rank}"
+    if new_rank < 0:
+      return f"Your site ranking has been checked, but unfortunately, you don't rank within the first five result pages."
+    else:
+      return f"Your site ranking has been confirmed, you are ranking at position {prev_rank}"
+
+  if new_rank < 0:
+    return f"You previously ranked {prev_rank} but are no longer appearing within the first five result pages."
 
   return f"Your rank has changed from {prev_rank} to {new_rank}."
 
@@ -36,7 +42,7 @@ def build_email(last_ranking, ranking, site, keyword):
 
   <p>{rank_change_message}</p>
 
-  <p>Check out your current and new rankings on the <a href="https://rank.greycastle.se/history.html">History page</a>.</p>
+  <p>Check out your current and new rankings on the <a href="https://rank.greycastle.se/dashboard">History page</a>.</p>
 
   <p>If you wonder about anything, feel free to respond to this email, it goes straight to my inbox.</p>
 
