@@ -1,6 +1,5 @@
-import base64
 from firebase_admin import firestore
-import json
+from common.ranking_id import decode_id, encode_id
 
 def read_stats(user_name):
   db = firestore.client()
@@ -33,13 +32,6 @@ def read_stats(user_name):
     },
     "items": items
   }
-
-def encode_id(keyword: str, site: str, user: str) -> str:
-  return base64.b64encode(json.dumps({'keyword': keyword, 'site': site, 'user': user}).encode()).decode()
-
-def decode_id(id: str) -> list:
-  data = json.loads(base64.b64decode(id.encode()).decode())
-  return [ data['keyword'], data['site'], data['user'] ]
 
 def find_rankings(keyword, site, all_rankings):
   for ranking in all_rankings:

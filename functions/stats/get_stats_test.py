@@ -1,6 +1,6 @@
 from unittest import mock
 from stats.stats import get_stats, get_detailed_stats, get_public_stats
-from stats.data_source import encode_id
+from common.ranking_id import encode_id
 import base64
 
 def test_get_stats():
