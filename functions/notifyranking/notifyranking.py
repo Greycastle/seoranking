@@ -1,6 +1,8 @@
+from base64 import encode
 from common.publisher import publish
 from common.events import get_event_data
 from notifyranking.storage import get_last_ranking
+from common.ranking_id import encode_id
 
 def notify_ranking(event, context):
   data = get_event_data(event)
@@ -18,7 +20,7 @@ def notify_ranking(event, context):
     'from': 'david@greycastle.se',
     'to': user,
     'subject': f'New ranking update for {site}',
-    'html_content': build_email(last_ranking, position, site, keyword)
+    'html_content': build_email(last_ranking, position, site, keyword, user)
   })
 
 def build_rank_change(prev_rank, new_rank):
@@ -33,7 +35,10 @@ def build_rank_change(prev_rank, new_rank):
 
   return f"Your rank has changed from {prev_rank} to {new_rank}."
 
-def build_email(last_ranking, ranking, site, keyword):
+def build_email(last_ranking, ranking, site, keyword, user):
+
+  encoded_id = encode_id(keyword, site, user)
+  link = f"https://rank.greycastle.se/details/{encoded_id}"
 
   rank_change_message = build_rank_change(last_ranking, ranking)
   return f"""
@@ -42,7 +47,7 @@ def build_email(last_ranking, ranking, site, keyword):
 
   <p>{rank_change_message}</p>
 
-  <p>Check out your current and new rankings on the <a href="https://rank.greycastle.se/dashboard">History page</a>.</p>
+  <p>Check out your current and new rankings on the <a href="{link}">ranking details page</a>.</p>
 
   <p>If you wonder about anything, feel free to respond to this email, it goes straight to my inbox.</p>
 

@@ -17,7 +17,7 @@ def test_notifies_on_new_ranking_if_no_previous():
   with mock.patch('notifyranking.notifyranking.publish') as mock_publish:
     notify_ranking(event, mock.Mock())
     last_rank = get_last_ranking('test@greycastle.se', 'greycastle', 'greycastle.se')
-    content = build_email(last_rank, 5, 'greycastle.se', 'greycastle')
+    content = build_email(last_rank, 5, 'greycastle.se', 'greycastle', 'test@greycastle.se')
     mock_publish.assert_called_once_with('send-mail', {
       'to': 'test@greycastle.se',
       'from': 'david@greycastle.se',
