@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="!registerPromise" class="page-section">
-      <h3>{{ $t('title') }}</h3>
+    <div v-if="!registerPromise">
+      <h2>{{ $t('title') }}</h2>
       <p>{{ $t('subtitle') }}</p>
       <form class="form">
         <div class="row">
@@ -19,18 +19,21 @@
               <input v-model="email" placeholder="sales@greens.zed" class="remember-input u-full-width" type="email" id="email">
             </p>
         </div>
-        <p><button @click="register()" class="button-primary" type="button">{{ $t('button-check') }}</button></p>
+        <p>
+          <button @click="register()" class="button-primary" type="button">{{ $t('button-check') }}</button>
+          <span class="login">{{ $t('or-login') }} <router-link to="/login">{{ $t('login') }}</router-link></span>
+        </p>
       </form>
     </div>
     <PromiseBuilder :promise="registerPromise" v-if="registerPromise">
       <template #pending>
-        <div class="page-section">
+        <div>
           <h3>{{ $t('registering.title') }}</h3>
           <p>{{ $t('registering.message') }}</p>
         </div>
       </template>
       <template #fulfilled>
-        <div class="page-section">
+        <div>
           <h3>{{ $t('done.title') }}</h3>
           <p>{{ $t('done.message') }}</p>
           <p>
@@ -39,11 +42,14 @@
         </div>
       </template>
       <template #rejected="{ error }">
-        <div class="page-section">
+        <div>
           <h3>{{ $t('error.title') }}</h3>
           <p>{{ $t('error.message') }}</p>
           <p>
             {{ error }}
+          </p>
+          <p>
+            <button @click="reset()">{{ $t('try-again') }}</button>
           </p>
         </div>
       </template>
@@ -69,21 +75,34 @@ export default {
       this.registerPromise = register(this.email, this.keyword, this.site)
       await this.registerPromise
       this.$emit('registered')
+    },
+    reset() {
+      this.registerPromise = null
     }
   }
 }
 </script>
 
+<style scoped>
+.login {
+  opacity: 0.7;
+  margin-left: 20px;
+}
+</style>
+
 <i18n>
 {
   "en": {
-    "title": "Get started",
+    "title": "Track your rank",
     "subtitle": "Enter your email to get reports to here and then your keyword and your site:",
     "keyword": "Keyword",
     "keyword-placeholder": "your keyword",
     "site": "Site",
     "email": "Email",
-    "button-check": "Check ranking!",
+    "or-login": "or",
+    "login": "login",
+    "button-check": "Start tracking!",
+    "try-again": "Try again",
     "registering": {
       "title": "Registering..",
       "message": "Give us a sec.."
@@ -99,13 +118,16 @@ export default {
     }
   },
   "ja": {
-    "title": "はじまる",
+    "title": "トラッキングを始まる",
     "subtitle": "ランキングを確認開始ために、以下にキーワード・サイトとどのメールアドレスにランキングアップデートを送って欲しいを入力してください：",
     "keyword": "キーワード",
     "keyword-placeholder": "あなたのキーワード",
     "site": "サイト",
     "email": "メールアドレス",
     "button-check": "ランキングを確認する",
+    "or-login": "または",
+    "login": "ログイン",
+    "try-again": "戻る",
     "registering": {
       "title": "登録中..",
       "message": "ちょっと待ってね.."
@@ -117,7 +139,7 @@ export default {
     "done": {
       "title": "できました!",
       "message": "もう少しと最初のランキングメールが届けます。今でもすぐにログイン、チェックできます。",
-      "button-login": "ランクを確認する"
+      "button-login": "トラッキングを始まる"
     }
   },
 }
