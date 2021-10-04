@@ -7,7 +7,7 @@ def test_can_send_mail():
     'from': "david@greycastle.se",
     "to": "ddikman@gmail.com",
     "subject": "Integration test email",
-    "html_content": '<a href="https://rank.greycastle.se/index.html">Check the site out</a>'
+    "html_content": '<a href="https://seorank.app/">Check the site out</a>'
   })
 
   handle_send_mail_event(event, Mock())

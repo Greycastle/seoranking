@@ -38,7 +38,7 @@ def build_rank_change(prev_rank, new_rank):
 def build_email(last_ranking, ranking, site, keyword, user):
 
   encoded_id = encode_id(keyword, site, user)
-  link = f"https://rank.greycastle.se/details/{encoded_id}"
+  link = f"https://seorank.app/details/{encoded_id}"
 
   rank_change_message = build_rank_change(last_ranking, ranking)
   return f"""
