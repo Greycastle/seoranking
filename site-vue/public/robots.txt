@@ -1,3 +1,5 @@
-# complete disallow for now
 User-agent: *
-Disallow: /
+Allow: /
+
+
+Sitemap: https://seorank.app/sitemap.xml
