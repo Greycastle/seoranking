@@ -1,3 +1,4 @@
 User-agent: *
+Allow: /
 
 Sitemap: https://seorank.app/sitemap.xml
