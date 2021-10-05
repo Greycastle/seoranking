@@ -24,8 +24,12 @@
         ]
       },
       {
-        "source": "**/*.@(txt)",
+        "source": "/robots.txt",
         "headers": [
+          {
+            "key": "x-robots-tag",
+            "value": "noindex, follow"
+          },
           {
             "key": "Content-Type",
             "value": "text/plain; charset=utf-8"
