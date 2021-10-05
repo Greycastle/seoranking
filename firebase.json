@@ -12,6 +12,17 @@
     "rewrites": [ {
       "source": "**",
       "destination": "/index.html"
-    } ]
+    } ],
+    "headers": [
+      {
+        "source": "**/*.@(xml)",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml; charset=utf-8"
+          }
+        ]
+      }
+    ]
   }
 }
