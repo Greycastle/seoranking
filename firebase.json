@@ -22,7 +22,7 @@
             "value": "text/xml; charset=utf-8"
           }
         ]
-      }
+      },
       {
         "source": "**/*.@(txt)",
         "headers": [
