@@ -1,4 +1,4 @@
-User-agent: *
-Allow: /
+user-agent: *
+allow: /
 
-Sitemap: https://seorank.app/sitemap.xml
+sitemap: https://seorank.app/sitemap.xml
