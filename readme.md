@@ -11,7 +11,7 @@ As a development environment, you can load all your environment key secrets usin
 To run site, use the [http-server](https://www.npmjs.com/package/http-server) npm package:
 
 ```
-cd site
+cd site-vue
 http-server
 ```
 
