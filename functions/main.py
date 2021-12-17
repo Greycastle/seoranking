@@ -6,6 +6,7 @@ from logresults.logresults import log_ranking_results
 from addranking.addranking import handle_add_ranking_event, handle_add_ranking_request
 from mailer.mailer import handle_send_mail_event
 from notifyranking.notifyranking import notify_ranking
+from initiatives.initatives import get_initatives
 
 def register_http(request):
   return register(request)
@@ -18,6 +19,9 @@ def get_public_stats_http(request):
 
 def get_detailed_stats_http(request):
   return get_detailed_stats(request)
+
+def get_initiatives_http(request):
+  return get_initatives(request)
 
 def rank_message(event, context):
   rank(event, context)
