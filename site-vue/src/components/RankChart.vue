@@ -33,13 +33,57 @@ export default {
       ]
     }
 
+    const activitiesPlugin = {
+      id: 'activitiesPlugin',
+      beforeDraw(chart) {
+        const { ctx, config: { options }, chartArea: { top, bottom }, scales: { x } } = chart
+        const actions = options.scales.x.actions
+        ctx.save()
+
+        ctx.strokeStyle = 'red'
+        ctx.setLineDash([8, 8])
+
+        for (var action of actions) {
+
+          const posX = x.getPixelForValue(action.value)
+          ctx.textAlign = 'center';
+          ctx.fillText(action.title, posX, top + 5);
+
+          ctx.beginPath()
+          ctx.moveTo(posX, top + 20)
+          ctx.lineTo(posX, bottom)
+          ctx.stroke()
+        }
+
+        ctx.restore()
+      }
+    }
+
+    const actions = []
+    /*
+    How this should look
+    const actions = [
+      { value: moment(new Date(2021, 10, 12)).format('LL'), title: 'Nice' },
+      { value: moment(new Date(2021, 10, 25)).format('LL'), title: 'Second' },
+      { value: moment(new Date(2021, 11, 3)).format('LL'), title: 'Third' }
+    ]
+    */
+
     // ctx.height = 300
     new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data,
+      plugins: [ activitiesPlugin ],
       options: {
         response: true,
         maintainAspectRatio: false,
+        scales: {
+          x: { actions },
+          y: {
+            suggestedMin: 1,
+            suggestedMax: 50
+          }
+        }
       }
     })
   }
