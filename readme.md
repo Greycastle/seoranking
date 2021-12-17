@@ -8,11 +8,10 @@ As a development environment, you can load all your environment key secrets usin
 
 ## Site
 
-To run site, use the [http-server](https://www.npmjs.com/package/http-server) npm package:
-
 ```
 cd site-vue
-http-server
+npm install
+npm run serve
 ```
 
 ## Functions
