@@ -239,7 +239,8 @@ export default {
 }
 
 .initiative-title {
-  font-size: 1.2em;
+  font-size: 1.3rem;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: bold;
 }
 
