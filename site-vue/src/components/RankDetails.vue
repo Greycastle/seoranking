@@ -25,7 +25,7 @@
         </div>
         <div class="page-section">
           <h3>{{ $t('stats.title') }}</h3>
-          <RankChart :dataPoints="statistics" v-if="hasRanks" />
+          <RankChart :dataPoints="statistics" :initiatives="initiatives" v-if="hasRanks" />
           <p v-else>{{ $t('stats.none') }}</p>
         </div>
 
@@ -52,6 +52,7 @@
 import { useRoute } from 'vue-router'
 import RankChart from '@/components/RankChart'
 import getDetails from '@/services/details'
+import getIniatives from '@/services/initiatives'
 import useClipboard from 'vue-clipboard3'
 
 export default {
@@ -75,15 +76,27 @@ export default {
       await toClipboard(window.location.href)
       this.copied = true
       setTimeout(() => this.copied = false, 2500)
-    }
+    },
+    async getIniatives() {
+      return this.isLoggedIn ? getIniatives() : Promise.resolve([])
+    },
+    async getDetails() {
+      const tasks = Promise.all([this.getIniatives(), getDetails(this.id)])
+      const [ initiatives, data ] = await tasks
+      return {
+        data,
+        initiatives
+      }
+    },
   },
   async mounted() {
     const route = useRoute()
     this.id = route.params.id
-    this.loadPromise = getDetails(this.id)
-    const data = await this.loadPromise
+    this.loadPromise = this.getDetails()
+    const { data, initiatives } = await this.loadPromise
     this.competitors = data.competitors
 
+    this.initiatives = initiatives
     this.site = data.ranking.site
     this.keyword = data.ranking.keyword
     this.statistics = data.stats.map((stat) => {

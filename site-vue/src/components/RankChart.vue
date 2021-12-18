@@ -13,6 +13,10 @@ export default {
     dataPoints: {
       type: Array,
       required: true
+    },
+    initiatives: {
+      type: Array,
+      required: true
     }
   },
   created() {
@@ -59,15 +63,12 @@ export default {
       }
     }
 
-    const actions = []
-    /*
-    How this should look
-    const actions = [
-      { value: moment(new Date(2021, 10, 12)).format('LL'), title: 'Nice' },
-      { value: moment(new Date(2021, 10, 25)).format('LL'), title: 'Second' },
-      { value: moment(new Date(2021, 11, 3)).format('LL'), title: 'Third' }
-    ]
-    */
+    const actions = this.initiatives.map((initiative) => {
+      return {
+        title: initiative.title,
+        value: moment(initiative.date).format('LL')
+      }
+    })
 
     // ctx.height = 300
     new Chart(ctx, {
