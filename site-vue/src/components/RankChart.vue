@@ -53,6 +53,7 @@ export default {
           ctx.textAlign = 'center';
           ctx.fillText(action.title, posX, top + 5);
 
+          console.log(`title ${action.title} gets position = ${posX} for value ${action.value}`)
           ctx.beginPath()
           ctx.moveTo(posX, top + 20)
           ctx.lineTo(posX, bottom)
@@ -63,12 +64,16 @@ export default {
       }
     }
 
+    const range = {
+      start: moment(this.dataPoints[0].date),
+      end: moment(this.dataPoints[this.dataPoints.length - 1].date)
+    }
     const actions = this.initiatives.map((initiative) => {
       return {
         title: initiative.title,
         value: moment(initiative.date).format('LL')
       }
-    })
+    }).filter((action) => moment(action.value) >= range.start && moment(action.value) <= range.end)
 
     // ctx.height = 300
     new Chart(ctx, {

@@ -29,6 +29,19 @@
           <p v-else>{{ $t('stats.none') }}</p>
         </div>
 
+        <div class="page-section" v-if="isLoggedIn">
+          <h3>{{ $t('initiatives.title') }}</h3>
+          <div v-if="initiatives.length == 0">
+            No initiatives have been added yet.
+          </div>
+          <div v-else>
+            <div v-for="(initiative, index) in initiatives" :key="index">
+              <span class="initiative-title">{{ initiative.title }}</span> <span class="initiative-date">{{ formatDate(initiative.date) }}</span><br/>
+              <p>{{ initiative.description }}</p>
+            </div>
+          </div>
+        </div>
+
         <div class="page-section">
           <h3>{{ $t('competition.title') }}</h3>
           <div>
@@ -55,6 +68,8 @@ import getDetails from '@/services/details'
 import getIniatives from '@/services/initiatives'
 import useClipboard from 'vue-clipboard3'
 
+import moment from 'moment'
+
 export default {
   components: {
     RankChart
@@ -79,6 +94,9 @@ export default {
     },
     async getIniatives() {
       return this.isLoggedIn ? getIniatives() : Promise.resolve([])
+    },
+    formatDate(date) {
+      return moment(date).format('LL')
     },
     async getDetails() {
       const tasks = Promise.all([this.getIniatives(), getDetails(this.id)])
@@ -140,6 +158,9 @@ export default {
     },
     "competition": {
       "title": "CURRENT COMPETITOR PLACEMENT"
+    },
+    "initiatives": {
+      "title": "Initiatives"
     }
   },
   "ja": {
@@ -158,6 +179,9 @@ export default {
     },
     "competition": {
       "title": "現在の競合状態"
+    },
+    "initiatives": {
+      "title": "取り組み"
     }
   },
 }
@@ -212,6 +236,17 @@ export default {
 .competitor-card:hover {
   background: #eee;
   border-color: #222;
+}
+
+.initiative-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.initiative-date {
+font-size: 0.8em;
+  color: gray;
+  margin-left: 12px;
 }
 
 </style>

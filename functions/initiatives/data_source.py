@@ -11,7 +11,7 @@ def get_initatives_for_user(user_name):
 def map_initative(initiative_doc):
   initative = initiative_doc.to_dict()
   return {
-    'date': initative['date'],
+    'date': initative['date'].isoformat(),
     'description': initative['description'],
     'title': initative['title']
   }
