@@ -53,7 +53,6 @@ export default {
           ctx.textAlign = 'center';
           ctx.fillText(action.title, posX, top + 5);
 
-          console.log(`title ${action.title} gets position = ${posX} for value ${action.value}`)
           ctx.beginPath()
           ctx.moveTo(posX, top + 20)
           ctx.lineTo(posX, bottom)

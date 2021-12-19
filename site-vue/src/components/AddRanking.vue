@@ -26,6 +26,7 @@
         </template>
       </PromiseBuilder>
     </form>
+    <p v-html="$t('keyword-tool')"></p>
   </div>
 </template>
 
@@ -79,7 +80,8 @@ export default {
     "button-saving": "Saving..",
     "button-add": "Add ranking",
     "result-added": "Congrats, new keyword was added!",
-    "result-error": "We're sorry, some error occurred. Please try again later."
+    "result-error": "We're sorry, some error occurred. Please try again later.",
+    "keyword-tool": "For tips on what keywords your site might rank for, check out <a href=\"https://app.wordstream.com/fkt/app?cid=Web_Any_Products_Keywords_Grader_KWTool&ref=undefined\">wordstream's keyword tool</a>"
   },
   "ja": {
     "title": "ランキングを追加する",
@@ -90,7 +92,8 @@ export default {
     "button-saving": "保存中..",
     "button-add": "ランキングする",
     "result-added": "おめでとう！ キーワードを追加できました!",
-    "result-error": "申し訳ございません、エラーが発生しました。少し待ちして、試してください。"
+    "result-error": "申し訳ございません、エラーが発生しました。少し待ちして、試してください。",
+    "keyword-tool": "どのキーワードをランキングするのを<a href=\"https://app.wordstream.com/fkt/app?cid=Web_Any_Products_Keywords_Grader_KWTool&ref=undefined\">wordstreamのキーワードツール</a>をご覧ください"
   }
 }
 </i18n>

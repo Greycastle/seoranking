@@ -25,8 +25,8 @@
         </div>
         <div class="page-section">
           <h3>{{ $t('stats.title') }}</h3>
-          <RankChart :dataPoints="statistics" :initiatives="initiatives" v-if="hasRanks" />
-          <p v-else>{{ $t('stats.none') }}</p>
+          <p v-if="noRanks">{{ $t('stats.none') }}</p>
+          <RankChart :dataPoints="statistics" :initiatives="initiatives" />
         </div>
 
         <div class="page-section" v-if="isLoggedIn">
@@ -82,6 +82,7 @@ export default {
       keyword: null,
       site: null,
       copied: false,
+      noRanks: false,
       statistics: []
     }
   },
@@ -120,9 +121,11 @@ export default {
     this.statistics = data.stats.map((stat) => {
       return {
         date: Date.parse(stat.date),
-        rank: stat.rank
+        rank: stat.rank || Number.NaN
       }
-    }).filter((item) => item.rank !== null).reverse()
+    }).reverse()
+    this.noRanks = this.statistics.filter((item) => item.rank !== Number.NaN).length === 0
+    console.log(this.statistics.filter((item) => item.rank !== Number.NaN))
 
     const siteRegex = new RegExp('(http|https)://(.+\\.)?' + 'greycastle.se')
     for (let competitor of this.competitors) {
@@ -132,9 +135,6 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$auth.user != null
-    },
-    hasRanks() {
-      return this.statistics.length > 0
     }
   },
 }
