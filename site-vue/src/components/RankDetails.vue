@@ -46,13 +46,12 @@
           <h3>{{ $t('competition.title') }}</h3>
           <p v-html="$t('competition.open-google', { link })"></p>
           <div>
-            <div :class="competitor.matchClass" v-for="(competitor, index) in competitors" :key="index" class="competitor-card">
-              <div class="rank">{{ index + 1 }}</div>
-                <div class="competitor">
-                  <span class="title">{{ competitor.title }}</span>
-                  <a class="url" :href="competitor.link" target="_blank"><span>{{ competitor.link }}</span></a>
-                </div>
-            </div>
+            <ol>
+              <li class="competitor" :class="competitor.matchClass" v-for="(competitor, index) in competitors" :key="index">
+                  <a class="title" :href="competitor.link" target="_blank"><span>{{ competitor.title }}</span></a><br/>
+                  <span class="url">{{ competitor.link }}</span>
+              </li>
+            </ol>
           </div>
         </div>
       </template>
@@ -194,53 +193,31 @@ export default {
 
 <style scoped>
 
-.competitor-card {
-  display: block;
-  display: flex;
-  flex-direction: row;
-  margin: 12px 0px;
-  border: 1px solid gray;
-  border-radius: 8px;
-  align-items: stretch;
-  width: 100%;
+.competitor li {
+  list-style-position: outside;
 }
 
-.competitor-card .rank {
-  border-radius: 8px 0 0 8px;
-  min-width: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2em;
+.competitor a {
+  color: #30474e;
+  text-decoration: none;
+}
+
+ol {
+  margin-left: 14px;
+}
+
+.competitor a:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.competitor .url {
+  font-size: 0.9em;
+}
+
+.competitor.match {
   font-weight: bold;
-}
-
-.competitor-card .competitor {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 8px;
-  min-width: 0;
-}
-
-.competitor-card .title {
-  font-size: 1.2em;
-}
-
-.competitor-card .url {
-  font-size: 0.8em;
-  opacity: 0.6;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.competitor-card.match {
-  background: #33F09E;
-}
-
-.competitor-card:hover {
-  background: #eee;
-  border-color: #222;
+  text-decoration: underline;
 }
 
 .initiative-title {
