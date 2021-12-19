@@ -25,7 +25,7 @@
         </div>
         <div class="page-section">
           <h3>{{ $t('stats.title') }}</h3>
-          <p v-if="noRanks">{{ $t('stats.none') }}</p>
+          <p v-if="!hasRanked">{{ $t('stats.none') }}</p>
           <RankChart :dataPoints="statistics" :initiatives="initiatives" />
         </div>
 
@@ -44,6 +44,7 @@
 
         <div class="page-section">
           <h3>{{ $t('competition.title') }}</h3>
+          <p v-html="$t('competition.open-google', { link })"></p>
           <div>
             <div :class="competitor.matchClass" v-for="(competitor, index) in competitors" :key="index" class="competitor-card">
               <div class="rank">{{ index + 1 }}</div>
@@ -82,7 +83,7 @@ export default {
       keyword: null,
       site: null,
       copied: false,
-      noRanks: false,
+      hasRanked: false,
       statistics: []
     }
   },
@@ -124,8 +125,7 @@ export default {
         rank: stat.rank || Number.NaN
       }
     }).reverse()
-    this.noRanks = this.statistics.filter((item) => item.rank !== Number.NaN).length === 0
-    console.log(this.statistics.filter((item) => item.rank !== Number.NaN))
+    this.hasRanked = this.statistics.filter((item) => !Number.isNaN(item.rank)).length > 0
 
     const siteRegex = new RegExp('(http|https)://(.+\\.)?' + 'greycastle.se')
     for (let competitor of this.competitors) {
@@ -135,6 +135,9 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$auth.user != null
+    },
+    link() {
+      return `https://www.google.com/search?q=${encodeURIComponent(this.keyword)}`
     }
   },
 }
@@ -157,7 +160,8 @@ export default {
       "none": "This keyword has not ranked since it started being tracked."
     },
     "competition": {
-      "title": "CURRENT COMPETITOR PLACEMENT"
+      "title": "Ranking and competition",
+      "open-google": "Show <a target=\"_blank\" href=\"{link}\">in google</a>"
     },
     "initiatives": {
       "title": "Initiatives"
@@ -178,7 +182,8 @@ export default {
       "none": "サイトはこのキーワードでまだ検索に上の50件の中には表示されていません"
     },
     "competition": {
-      "title": "現在の競合状態"
+      "title": "現在と競合状態のランキング",
+      "open-google": "<a target=\"_blank\" href=\"{link}\">Google</a>に表示する"
     },
     "initiatives": {
       "title": "取り組み"
