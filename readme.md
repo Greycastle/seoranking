@@ -83,6 +83,7 @@ Google has a [Programmable Search Engine](https://developers.google.com/custom-s
 
 ## Roadmap
 
+- Add choice of country/language to run the query in
 - Localize the email
 - Cache results for faster loading
 - Make colour coding less horrible
