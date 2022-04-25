@@ -9,7 +9,7 @@ def bill_user(db, user):
   })
   print(f"Billed {user} one credit, {ranks_left} credits remaining")
 
-def log_latest_result(db, user, keyword, rank_site, rank, timestamp):
+def log_latest_result(db, user, keyword, rank_site, rank, timestamp, rankingDocPath):
   user_doc = next(db.collection('users').where('email', '==', user).stream(), None)
   data = user_doc.to_dict()
 
@@ -20,6 +20,9 @@ def log_latest_result(db, user, keyword, rank_site, rank, timestamp):
   ranking = next(filter(lambda x: x['site'] == rank_site and x['keyword'] == keyword, all_rankings), None)
   if ranking is None:
     raise NoSuchRanking
+
+  if rankingDocPath is not None:
+    ranking['last_ranking_path'] = rankingDocPath
 
   ranking['last_position'] = rank
   ranking['last_ranked'] = timestamp

@@ -13,3 +13,15 @@ def test_log_results():
   })
 
   log_ranking_results(event, mock.Mock())
+
+def test_log_results_with_details_id():
+  event = get_event_from_dict({
+      'user': 'test@greycastle.se',
+      'keyword': 'greycastle',
+      'rank_site': 'greycastle.se',
+      'timestamp': datetime.now().isoformat(),
+      'position': 4,
+      'rankingDocPath': 'ranking/20210904_055621_600877'
+  })
+
+  log_ranking_results(event, mock.Mock())

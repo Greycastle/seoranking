@@ -21,6 +21,7 @@ def log_ranking_results(event, context):
   rank_site = message['rank_site']
   timestamp = datetime.fromisoformat(message['timestamp'])
   rank = message['position']
+  lastRankingDocPath = message.get('rankingDocPath', None)
 
-  log_latest_result(db, user, keyword, rank_site, rank, timestamp)
+  log_latest_result(db, user, keyword, rank_site, rank, timestamp, lastRankingDocPath)
   bill_user(db, user)

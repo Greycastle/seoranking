@@ -35,10 +35,11 @@ def rank(event, context):
     'position': get_position(results=ranking, rank_site=rank_site),
     'results': ranking
   }
-  save(results)
+  docPath = save(results)
 
   # trigger that rank is saved
   results['timestamp'] = results['timestamp'].isoformat()
+  results['rankingDocPath'] = docPath
   publish('ranking-results', results)
 
 def get_position(results, rank_site):

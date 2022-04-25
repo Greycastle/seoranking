@@ -5,6 +5,8 @@ import json
 def publish(topic_name, message):
   publisher = pubsub_v1.PublisherClient()
   PROJECT_ID = os.getenv('GCP_PROJECT')
+  if PROJECT_ID != 'seoranking-324303':
+    raise Exception('Please set the GCP_PROJECT environment variable to the SEO Ranking project ID')
 
   if not topic_name or not message:
     raise Exception("Must supply topic_name and message to publish")

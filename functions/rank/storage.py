@@ -9,3 +9,4 @@ def save(entry):
 
   doc_ref = db.collection(u'ranking').document(timestamp)
   doc_ref.set(entry)
+  return f'ranking/{timestamp}'
