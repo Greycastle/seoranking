@@ -53,6 +53,9 @@ I use [pytest](https://docs.pytest.org/) for running unit tests. This helps iter
 Run it by
 
 ```shell
+# making sure you are on the right firebase project
+gcloud config set project seoranking-324303
+export GCP_PROJECT=seoranking-324303
 pytest
 ```
 
@@ -93,3 +96,4 @@ Google has a [Programmable Search Engine](https://developers.google.com/custom-s
 - Add share buttons for good results
 - Improve call to actions by splitting pages up
 - Add slack integration
+- Add link to [google search trends](https://trends.google.com/trends/explore) for keywords
