@@ -97,3 +97,13 @@ Google has a [Programmable Search Engine](https://developers.google.com/custom-s
 - Improve call to actions by splitting pages up
 - Add slack integration
 - Add link to [google search trends](https://trends.google.com/trends/explore) for keywords
+
+
+### Currently going on
+
+Last edit I added `rankingDocPath` to the rankings for each user, the idea is to use this in `get_stats` to not have to iterate over all of the rankings to get the latest stats.
+
+I also want to:
+1. Keep a separate list of ranking positions
+  - Potentially, I could move the rank results to a sub-collection instead
+2. Save the number of rankings in `log_ranking_results` to not have to count them each time
