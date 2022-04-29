@@ -9,20 +9,21 @@ def read_stats(user_name):
 
   data = user.to_dict()
 
-  items = list(map(lambda x: { 'keyword': x['keyword'], 'site': x['site'] }, data.get('rankings', [])))
-
-  rankings = list(map(lambda x: x.to_dict(), db.collection("ranking").where("user", "==", user_name).stream()))
-  print(f"got {len(rankings)} rankings for {user_name}")
-
-  for item in items:
-    items_rankings = list(find_rankings(item['keyword'], item['site'], rankings))
-    items_rankings.sort(key=(lambda x: x['timestamp']))
-    item['rankings'] = len(items_rankings)
-    item['downloadId'] = encode_id(item['keyword'], item['site'], user_name)
-    if (len(items_rankings) > 0):
-      recent = items_rankings[-1]
-      item['lastRanking'] = recent['position']
-      item['lastConfirmed'] = recent['timestamp'].isoformat()
+  items = []
+  for ranking_data in data.get('rankings', []):
+    item = {
+      'keyword': ranking_data['keyword'],
+      'site': ranking_data['site']
+    }
+    items.append(item)
+    item['rankings'] = ranking_data.get('total_ranks', 0)
+    item['downloadId'] = encode_id(ranking_data['keyword'], ranking_data['site'], user_name)
+    last_ranking_path = ranking_data.get('last_ranking_path', None)
+    print(f"last_ranking_path: {last_ranking_path}")
+    if last_ranking_path is not None:
+      last_ranking = get_recent_ranking(db, last_ranking_path)
+      item['lastRanking'] = last_ranking['lastRanking']
+      item['lastConfirmed'] = last_ranking['lastConfirmed']
 
   return {
     "stats": {
@@ -31,6 +32,22 @@ def read_stats(user_name):
       "schedule": data.get('schedule', 3)
     },
     "items": items
+  }
+
+def get_recent_ranking(db, path):
+  print(f'Reading recent ranking from {path}')
+  ranking = db.document(path).get()
+  if ranking.exists:
+    data = ranking.to_dict()
+    return {
+      'lastRanking': data['position'],
+      'lastConfirmed': data['timestamp'].isoformat()
+    }
+
+  print('Not found!')
+  return {
+    'lastRanking': None,
+    'lastConfirmed': None
   }
 
 def find_rankings(keyword, site, all_rankings):

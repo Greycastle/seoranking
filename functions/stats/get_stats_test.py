@@ -6,12 +6,19 @@ import base64
 def test_get_stats():
   request = mock.Mock(headers={'authorization': 'Bearer mock-token'}, method='GET')
   mock_user = {
-    'email': 'david@greycastle.se'
+    'email': 'test@greycastle.se'
   }
   with mock.patch('firebase_admin.auth.verify_id_token') as verify_mock:
     verify_mock.return_value = mock_user
-    get_stats(request)
+    (response, status, _) = get_stats(request)
     verify_mock.assert_called_once_with('mock-token')
+    assert status == 200
+
+    assert response['stats']['creditsSpent'] >= 30
+    site = next(filter(lambda x: x['keyword'] == 'greycastle', response['items']), None)
+    assert site is not None
+    assert site['rankings'] >= 43
+    assert site['lastRanking'] >= 1
 
 def test_get_public_stats():
   id = base64.b64encode("david@greycastle.se".encode()).decode()
