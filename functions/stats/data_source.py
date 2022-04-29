@@ -66,22 +66,25 @@ def read_detailed_stats(id: str):
     .where('user', '==', user)\
     .where('keyword', '==', keyword)\
     .where('rank_site', '==', site)\
+    .select(['timestamp', 'position'])\
     .order_by('timestamp', 'DESCENDING')\
-    .limit(100)\
+    .limit(1000)\
     .stream()
 
-  entries = list(map(lambda x: x.to_dict(), stream))
+  entries = list(map(lambda x: { **x.to_dict(), 'id': x.id }, stream))
   stats = list(map(lambda x: { 'date': x['timestamp'].isoformat(), 'rank': x['position'] }, entries))
   if len(stats) == 0:
     print(f"No entries for keyword '{keyword}', site '{site}' and user '{user}'")
     raise NoSuchEntry()
+
+  last_doc = db.document(f'ranking/{entries[0]["id"]}').get().to_dict()
 
   return {
     "ranking": {
       "keyword": keyword,
       "site": site
     },
-    "competitors": list(entries[0]['results']),
+    "competitors": last_doc['results'],
     "stats": stats
   }
 
