@@ -25,12 +25,12 @@ def notify_ranking(event, context):
 
 def build_rank_change(prev_rank, new_rank):
   if prev_rank < 0:
-    if new_rank < 0:
+    if new_rank is None or new_rank < 0:
       return f"Your site ranking has been checked, but unfortunately, you don't rank within the first five result pages."
     else:
       return f"Your site ranking has been confirmed, you are ranking at position {prev_rank}"
 
-  if new_rank < 0:
+  if new_rank is None or new_rank < 0:
     return f"You previously ranked {prev_rank} but are no longer appearing within the first five result pages."
 
   return f"Your rank has changed from {prev_rank} to {new_rank}."
