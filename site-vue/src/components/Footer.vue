@@ -3,7 +3,7 @@
     <h3>About</h3>
     <p>
       This app is built by <a target="_blank" href="https://twitter.com/almundgrey">David</a> @ <a target="_blank" href="https://greycastle.se">Greycastle</a>, visuals based on the <a target="_blank" href="http://getskeleton.com/">Skeleton</a> css framework.
-      <router-link :to="{ name: isLoggedIn ? 'Dashboard' : 'Top' }">Top</router-link> | <router-link to="/about">About</router-link><span v-if="!isLoggedIn"> | <router-link to="/pricing">Pricing</router-link></span><span v-else> | <a @click="logout()">Logout</a></span>
+      <router-link to="/">Top</router-link> | <router-link to="/about">About</router-link><span v-if="!isLoggedIn"> | <router-link to="/pricing">Pricing</router-link></span><span v-else> | <router-link to="/dashboard">Dashboard</router-link> | <a @click="logout()">Logout</a></span>
       <LanguageSwitcher />
     </p>
   </div>

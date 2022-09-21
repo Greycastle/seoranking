@@ -23,8 +23,11 @@ const firebaseApp = initializeApp(firebaseConfig);
 // Vue setup
 import { createApp } from 'vue'
 import auth from './auth';
-import router from './router';
 import DefaultLayout from './layouts/DefaultLayout'
+import router from './router';
+
+// Analytics setup
+import analytics from './analytics';
 
 // Global components
 import { Skeletor } from 'vue-skeletor';
@@ -37,6 +40,7 @@ import i18n from './i18n'
 const app = createApp(DefaultLayout)
 app.use(i18n)
 app.use(router)
+app.use(analytics, { firebaseApp })
 app.use(auth, { firebaseApp })
 app.component(Skeletor.name, Skeletor);
 app.component('Footer', Footer);
