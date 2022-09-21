@@ -84,6 +84,8 @@ Google has a [Programmable Search Engine](https://developers.google.com/custom-s
 
 [SerpApi](https://serpapi.com/) is one service that scrapes Google and they take the blame for this. [Google hasn't taken any legal actions](https://dataforseo.com/blog/is-scraping-google-serps-legal) for companies scraping them but it is against their ToS.
 
+Scraping google like this will sooner or later hit their rate limit and start returning 429 Too many requests. To avoid this but still keep cost down, when this happens, I fall back and use [https://scrape.do/](https://scrape.do/) as a proxy. As an improvement, I could add an exponential falloff or so until when I go back and use my own service but for now, I'll just try scraping on my own first and if it fails, fall back to using the proxy.
+
 ## Roadmap
 
 - Add choice of country/language to run the query in
