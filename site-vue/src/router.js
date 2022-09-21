@@ -25,10 +25,7 @@ const router = createRouter({
         {
           path: '',
           name: 'Top',
-          component: Top,
-          meta: {
-            redirectIfSignedIn: true
-          }
+          component: Top
         },
         {
           path: 'login',
