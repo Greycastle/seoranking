@@ -30,9 +30,9 @@ def parse_page(content, stop_on, pages_left = 5):
           continue
 
         link = links[0]
-        link_id = link['data-ved']
+        link_id = link.get('data-ved')
         # skip previous match
-        if link_id in found:
+        if link_id is None or link_id in found:
           continue
 
         found.append(link_id)
