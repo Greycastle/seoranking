@@ -4,8 +4,3 @@ def test_search():
   result = run_search(query='greycastle', stop_on="greycastle.se")
   urls = list(map(lambda x: x['link'], result))
   assert "https://www.greycastle.se/" in urls
-
-def test_search_with_proxy():
-  result = run_search(query='greycastle', stop_on="greycastle.se", use_proxy=True)
-  urls = list(map(lambda x: x['link'], result))
-  assert "https://www.greycastle.se/" in urls
