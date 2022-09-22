@@ -22,7 +22,7 @@ def run_search(query, stop_on, use_proxy = False):
     )
   elif resp.status_code == 429 and use_proxy == False:
     print("Got 429, retrying with proxy")
-    run_search(query, stop_on, use_proxy=True)
+    return run_search(query, stop_on, use_proxy=True)
   else:
     print(f"Got [{resp.status_code}] for url {first_page_url}, aborting")
     raise Exception(f"Failed to parse with response {resp.status_code}")
