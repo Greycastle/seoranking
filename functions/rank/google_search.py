@@ -5,14 +5,11 @@ from time import sleep
 from random import randint
 from urllib.parse import quote_plus
 
-def run_search(query, stop_on, use_proxy = False):
+def run_search(query, stop_on):
   query = query.replace(' ', '+').lower()
   human_language = "ja"
   geo_location = "jp"
   first_page_url = f"https://www.google.com/search?q={query}&hl={human_language}&gl={geo_location}"
-  if (use_proxy):
-    encoded_url = quote_plus(first_page_url)
-    first_page_url = f"http://api.scrape.do?token=82cf028232b34ca19e1426e34105e1bb04f2a2529b5&url={encoded_url}"
 
   resp = get_url(first_page_url)
   if resp.status_code == 200:
@@ -20,9 +17,6 @@ def run_search(query, stop_on, use_proxy = False):
       content=resp.content,
       stop_on=stop_on
     )
-  elif resp.status_code == 429 and use_proxy == False:
-    print("Got 429, retrying with proxy")
-    return run_search(query, stop_on, use_proxy=True)
   else:
     print(f"Got [{resp.status_code}] for url {first_page_url}, aborting")
     raise Exception(f"Failed to parse with response {resp.status_code}")
@@ -87,7 +81,11 @@ def is_match(find_site, sites):
   return False
 
 def get_url(url):
+  encoded_url = quote_plus(url)
+  proxy_url = f"http://api.scrape.do?token=82cf028232b34ca19e1426e34105e1bb04f2a2529b5&url={encoded_url}"
+
   USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko/20100101 Firefox/65.0"
   headers = {"user-agent" : USER_AGENT}
   print(f"scraping url: {url}")
-  return requests.get(url, headers=headers)
+  print(f'using proxy url: {proxy_url}')
+  return requests.get(proxy_url, headers=headers)
