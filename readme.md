@@ -1,6 +1,12 @@
-# SEO Ranking
+# SEO Ranking [Archived]
 
 Tool to let people who can't afford huge tools like SEM Rush to get on track with their SEO ranking over time.
+
+**Archive notice:**
+This used to be hosted on https://myrank.se/ but it never really got off to any kind of start so July 30th, 2025, I decided to archive it to avoid paying for the domain.
+
+<img width="1279" height="1079" alt="image" src="https://github.com/user-attachments/assets/3efd27db-f455-47bc-bab0-efcd5ae82cf1" />
+
 
 ## Environment
 
