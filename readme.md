@@ -107,7 +107,7 @@ Scraping google like this will sooner or later hit their rate limit and start re
 - Add link to [google search trends](https://trends.google.com/trends/explore) for keywords
 
 
-### Currently going on
+### Currently going on
 
 Last edit I added `rankingDocPath` to the rankings for each user, the idea is to use this in `get_stats` to not have to iterate over all of the rankings to get the latest stats.
 
